@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{6B9DD595-E832-4102-BFAC-F6191441EABF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{DEB60AED-6E54-4582-AE85-ECAB968EFA77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BICE.DAL", "BICE.DAL\BICE.DAL.csproj", "{9F3B687A-D829-4753-B922-41C2034FA35E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BICE.DTO", "BICE.DTO\BICE.DTO.csproj", "{9C8F60BC-8007-47B4-95CD-6AEB1D08A85E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9F3B687A-D829-4753-B922-41C2034FA35E} = {6B9DD595-E832-4102-BFAC-F6191441EABF}
+		{9C8F60BC-8007-47B4-95CD-6AEB1D08A85E} = {6B9DD595-E832-4102-BFAC-F6191441EABF}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F3B687A-D829-4753-B922-41C2034FA35E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F3B687A-D829-4753-B922-41C2034FA35E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F3B687A-D829-4753-B922-41C2034FA35E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F3B687A-D829-4753-B922-41C2034FA35E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C8F60BC-8007-47B4-95CD-6AEB1D08A85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C8F60BC-8007-47B4-95CD-6AEB1D08A85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C8F60BC-8007-47B4-95CD-6AEB1D08A85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C8F60BC-8007-47B4-95CD-6AEB1D08A85E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
