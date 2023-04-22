@@ -54,13 +54,19 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
 
     public Material_DTO Add(Material_DTO dto)
     {
+        var id_categorie = new Categorie_SRV().GetByDenomination(dto.Categorie).Id;
+        var id_etat_materiel = new EtatMateriel_SRV().GetByDenomination(dto.Etat_materiel).Id;
+        
+        
         var materielDAL = new Materiel_DAL(
             dto.Denomination,
             dto.Code_barre,
             dto.Nombre_utilisations,
             dto.Nombre_utilisations_limite,
             dto.Date_expiration,
-            dto.Date_prochain_controle);
+            dto.Date_prochain_controle, 
+            id_categorie,
+            id_etat_materiel);
         
         depot_materiel.Insert(materielDAL);
 

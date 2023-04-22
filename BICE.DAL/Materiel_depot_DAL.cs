@@ -55,7 +55,6 @@ public class Materiel_depot_DAL : Depot_DAL<Materiel_DAL>
         CloseAndDisposeConnexion();
     }
     
-    
     public override IEnumerable<Materiel_DAL> GetAll()
     {
         InitialiseConnexionAndCommand();
