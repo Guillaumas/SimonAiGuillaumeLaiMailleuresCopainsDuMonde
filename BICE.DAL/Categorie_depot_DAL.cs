@@ -1,3 +1,5 @@
+using System.Reflection.Metadata.Ecma335;
+
 namespace BICE.DAL;
 using System.Data.SqlClient;
 
@@ -7,7 +9,7 @@ public class Categorie_depot_DAL : Depot_DAL<Categorie_DAL>
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"INSERT INTO [dbo].[categorie]
-                                   ([denomination])
+                                   ([categorie_nom])
                              VALUES
                                    (@denomination);
                              SELECT SCOPE_IDENTITY()";
@@ -21,7 +23,7 @@ public class Categorie_depot_DAL : Depot_DAL<Categorie_DAL>
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"UPDATE [dbo].[categorie] 
-                               SET [denomination] = @denomination
+                               SET [categorie_nom] = @denomination
                              WHERE id=@id";
         Command.Parameters.Add(new SqlParameter("@denomination", c.Denomination));
         Command.ExecuteNonQuery();
@@ -34,7 +36,7 @@ public class Categorie_depot_DAL : Depot_DAL<Categorie_DAL>
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"SELECT [id]
-                                  ,[denomination]
+                                  ,[categorie_nom]
                               FROM [dbo].[categorie]
                               WHERE id=@id";
         Command.Parameters.Add(new SqlParameter("@id", id));
@@ -44,13 +46,35 @@ public class Categorie_depot_DAL : Depot_DAL<Categorie_DAL>
         if (reader.Read())
         {
             c = new Categorie_DAL(
-                (string)reader["denomination"]
+                (int)reader["id"],
+                (string)reader["categorie_nom"]
             );
         }
         CloseAndDisposeConnexion();
         return c;
     }
 
+    public Categorie_DAL GetByDenomination(string denomination)
+    {
+        InitialiseConnexionAndCommand();
+        Command.CommandText = @"SELECT [id]
+                                  ,[categorie_nom]
+                              FROM [dbo].[categorie]
+                              WHERE categorie_nom=@denomination";
+        Command.Parameters.Add(new SqlParameter("@denomination", denomination));
+        var reader = Command.ExecuteReader();
+
+        Categorie_DAL c = null;
+        if (reader.Read())
+        {
+            c = new Categorie_DAL(
+                (int)reader["id"],
+                (string)reader["categorie_nom"]
+            );
+        }
+        CloseAndDisposeConnexion();
+        return c;
+    }
 
     public override IEnumerable<Categorie_DAL> GetAll()
     {
