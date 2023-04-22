@@ -9,12 +9,38 @@ public abstract class Depot_DAL<Type_DAL> : IDepot_DAL<Type_DAL>
     protected SqlConnection Connexion { get; set; }
     protected SqlCommand Command { get; set; }
     
+    // public Depot_DAL()
+    // {
+    //     var builder = new ConfigurationBuilder();
+    //     var config = builder.AddJsonFile("appsettings.json", false, true).Build();
+    //     ConString = config.GetSection("ConnectionStrings:default").Value;
+    // }
+    
     public Depot_DAL()
     {
-        var builder = new ConfigurationBuilder();
-        var config = builder.AddJsonFile("appsettings.json", false, true).Build();
-        ConString = config.GetSection("ConnectionStrings:default").Value;
+        try
+        {
+            var builder = new ConfigurationBuilder();
+            var config = builder.AddJsonFile("./appsettings.json", false, true).Build();
+            // var connectionStringSection = config.GetSection("ConnectionStrings:BICE");
+            if (config == null)
+            {
+                throw new Exception("Configuration not found.");
+            }
+            // ConString = connectionStringSection?.Value ?? throw new Exception($"Connection string not found : {connectionStringSection.Value}");
+            
+            // TODO
+            ConString = "Data Source=localhost;Initial Catalog=BICE;User ID=SA;Password=Simon_sous_debiandu44!";
+        }
+        catch (FileNotFoundException e)
+        {
+            Console.WriteLine($"File not found ======> {e.Message}");
+            throw;
+        }
+        
+
     }
+
     
     protected void InitialiseConnexionAndCommand()
     {
@@ -34,8 +60,11 @@ public abstract class Depot_DAL<Type_DAL> : IDepot_DAL<Type_DAL>
         if (Command!=null)
         {
             Command.Dispose();
-        }
+        }       
     }
+    
+
+
     
     public abstract IEnumerable<Type_DAL> GetAll();
     public abstract void Delete(Type_DAL p);
