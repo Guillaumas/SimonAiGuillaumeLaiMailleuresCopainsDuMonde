@@ -11,6 +11,12 @@ public class Materiel_API
     
     private Materiel_SRV service;
 
+    
+    public Materiel_API(Materiel_SRV service)
+    {
+        this.service = service;
+    }
+    
     [HttpGet]
     public List<Material_DTO> GetAll()
     {
