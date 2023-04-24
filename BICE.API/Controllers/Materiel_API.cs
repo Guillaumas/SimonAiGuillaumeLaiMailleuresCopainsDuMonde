@@ -29,4 +29,18 @@ public class Materiel_API
     {
         return service.Add(materiel);
     }
+    
+    [HttpPost]
+    [Route("usedMaterial")]
+    public Material_DTO UpdateOnInterventionReturnUsedMaterial(Material_DTO materiel)
+    {
+        return service.UpdateOnInterventionReturnUsedMaterial(materiel);
+    }
+    [HttpPost]
+    [Route("notusedMaterial")]
+    public Material_DTO UpdateOnInterventionReturnNotUsedMaterial(Material_DTO materiel)
+    {
+        return service.UpdateOnInterventionReturnNotUsedMaterial(materiel);
+    }
+
 }

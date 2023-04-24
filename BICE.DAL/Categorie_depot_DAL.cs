@@ -54,7 +54,7 @@ public class Categorie_depot_DAL : Depot_DAL<Categorie_DAL>
         return c;
     }
 
-    public Categorie_DAL GetByDenomination(string denomination)
+    public Categorie_DAL GetByDenomination(string? denomination)
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"SELECT [id]

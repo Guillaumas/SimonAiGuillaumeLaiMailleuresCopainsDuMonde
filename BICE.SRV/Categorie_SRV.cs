@@ -14,10 +14,13 @@ public class Categorie_SRV : BICE_SRV<Categorie_DTO>
         this.depot_categorie = new Categorie_depot_DAL();
     }
     
-    public Categorie_DTO GetByDenomination(string denomination)
+    public Categorie_DTO GetByDenomination(string? denomination)
     {
         var categorieDAL = depot_categorie.GetByDenomination(denomination);
 
+        if (categorieDAL == null) 
+            return null;
+        
         return new Categorie_DTO()
         {
             Id = categorieDAL.Id,
@@ -26,7 +29,12 @@ public class Categorie_SRV : BICE_SRV<Categorie_DTO>
     }
     public Categorie_DTO GetById(int id)
     {
-        throw new NotImplementedException();
+        var categorieDAL = depot_categorie.GetById(id);
+        return new Categorie_DTO()
+        {
+            Id = categorieDAL.Id,
+            Denomination = categorieDAL.Denomination
+        };
     }
 
     public List<Categorie_DTO> GetAll()
@@ -36,10 +44,17 @@ public class Categorie_SRV : BICE_SRV<Categorie_DTO>
 
     public Categorie_DTO Add(Categorie_DTO dto)
     {
-        throw new NotImplementedException();
+        var categorieDAL = new Categorie_DAL(
+            dto.Denomination);
+        depot_categorie.Insert(categorieDAL);
+        
+        dto.Id = categorieDAL.Id;
+        dto.Denomination = categorieDAL.Denomination;
+        
+        return dto; 
     }
 
-    public void Update(Categorie_DTO dto)
+    public Categorie_DTO Update(Categorie_DTO dto)
     {
         throw new NotImplementedException();
     }

@@ -12,9 +12,13 @@ public class EtatMateriel_SRV : BICE_SRV<EtatMaterial_DTO>
         this.depot_etatMateriel = new EtatMateriel_depot_DAL();
     }
     
-    public EtatMaterial_DTO GetByDenomination(string denomination)
+    public EtatMaterial_DTO GetByDenomination(string? denomination)
     {
         var etatMaterielDAL = depot_etatMateriel.GetByDenomination(denomination);
+        
+        if (etatMaterielDAL == null)
+            return null;
+        
         return new EtatMaterial_DTO()
         {
             Id = etatMaterielDAL.Id,
@@ -24,7 +28,12 @@ public class EtatMateriel_SRV : BICE_SRV<EtatMaterial_DTO>
     
     public EtatMaterial_DTO GetById(int id)
     {
-        throw new NotImplementedException();
+        var categorieDAL = depot_etatMateriel.GetById(id);
+        return new EtatMaterial_DTO()
+        {
+            Id = categorieDAL.Id,
+            Denomination = categorieDAL.Denomination
+        };
     }
 
     public List<EtatMaterial_DTO> GetAll()
@@ -34,10 +43,16 @@ public class EtatMateriel_SRV : BICE_SRV<EtatMaterial_DTO>
 
     public EtatMaterial_DTO Add(EtatMaterial_DTO dto)
     {
-        throw new NotImplementedException();
+        var etaMaterielDAL = new EtatMateriel_DAL(
+            dto.Denomination);
+        depot_etatMateriel.Insert(etaMaterielDAL);
+        
+        dto.Id = etaMaterielDAL.Id;
+        dto.Denomination = etaMaterielDAL.Denomination;
+        return dto;
     }
 
-    public void Update(EtatMaterial_DTO dto)
+    public EtatMaterial_DTO Update(EtatMaterial_DTO dto)
     {
         throw new NotImplementedException();
     }

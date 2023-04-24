@@ -45,7 +45,7 @@ namespace BICE_WPF
                 var materiels = CSVParser.ParseCsvFile(openFileDialog.FileName);
 
                 Materiel_depot_DAL materielDepot = new Materiel_depot_DAL(); // Crée un objet Materiel_depot_DAL
-
+                
                 foreach (var materiel in materiels)
                 {
                     Materiel_DAL materialDal = Converter.Materiel_DTO_To_DAL(materiel); // Convertit le DTO en DAL

@@ -10,7 +10,25 @@ public class EtatMateriel_depot_DAL : Depot_DAL<EtatMateriel_DAL>
 
     public override EtatMateriel_DAL GetById(int id)
     {
-        throw new NotImplementedException();
+        InitialiseConnexionAndCommand();
+        Command.CommandText = @"SELECT [id]
+                                  ,[etat]
+                              FROM [dbo].[etat_materiel]
+                              WHERE id=@id";
+        Command.Parameters.Add(new SqlParameter("@id", id));
+        var reader = Command.ExecuteReader();
+        EtatMateriel_DAL em = null;
+        if (reader.Read())
+        {
+            em = new EtatMateriel_DAL(
+                (int)reader["id"],
+                (string)reader["etat"]
+            );
+        }
+
+        ;
+        CloseAndDisposeConnexion();
+        return em;
     }
     
     public EtatMateriel_DAL GetByDenomination(string denomination)
@@ -22,6 +40,7 @@ public class EtatMateriel_depot_DAL : Depot_DAL<EtatMateriel_DAL>
                               WHERE etat=@denomination";
         Command.Parameters.Add(new SqlParameter("@denomination", denomination));
         var reader = Command.ExecuteReader();
+        
         EtatMateriel_DAL em = null;
         if (reader.Read())
         {
@@ -34,9 +53,18 @@ public class EtatMateriel_depot_DAL : Depot_DAL<EtatMateriel_DAL>
         return em;
     }
 
-    public override EtatMateriel_DAL Insert(EtatMateriel_DAL p)
+    public override EtatMateriel_DAL Insert(EtatMateriel_DAL em)
     {
-        throw new NotImplementedException();
+        InitialiseConnexionAndCommand();
+        Command.CommandText = @"INSERT INTO [dbo].[etat_materiel]
+                                   ([etat])
+                             VALUES
+                                   (@denomination);
+                             SELECT SCOPE_IDENTITY()";
+        Command.Parameters.Add(new SqlParameter("@denomination", em.Denomination));
+        em.Id = Convert.ToInt32((decimal)Command.ExecuteScalar());
+        CloseAndDisposeConnexion();
+        return em;
     }
 
     public override IEnumerable<EtatMateriel_DAL> GetAll()
