@@ -9,6 +9,7 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
     protected Materiel_depot_DAL depot_materiel;
     protected EtatMateriel_depot_DAL depot_EtatMateriel; //TODO: Bonne pratique???
     protected Categorie_depot_DAL depot_categorie; //TODO: Bonne pratique???
+    protected Vehicule_depot_DAL depot_vehicule; //TODO: Bonne pratique???
     
     protected Categorie_SRV categorieSRV;
     protected EtatMateriel_SRV etatMaterielSRV;
@@ -20,6 +21,7 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         this.categorieSRV = new Categorie_SRV();
         this.etatMaterielSRV = new EtatMateriel_SRV();
         this.depot_categorie = new Categorie_depot_DAL();
+        this.depot_vehicule = new Vehicule_depot_DAL();
     }
     public Material_DTO GetById(int id)
     {
@@ -86,7 +88,12 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
 
         var id_categorie = categorieSRV.GetByDenomination(dto.Categorie) == null ? categorieSRV.Add(new Categorie_DTO(){Denomination = dto.Categorie}).Id : categorieSRV.GetByDenomination(dto.Categorie).Id;
         var id_etat_materiel = etatMaterielSRV.GetByDenomination(dto.Etat_materiel) == null ? etatMaterielSRV.Add(new EtatMaterial_DTO(){Denomination = dto.Etat_materiel}).Id : etatMaterielSRV.GetByDenomination(dto.Etat_materiel).Id;
-        
+
+        //TODO : review, bonne pratique?
+        if (id_categorie != categorieSRV.GetByDenomination("stock").Id)
+        {
+            
+        }
 
         var materielDAL = new Materiel_DAL(
             dto.Denomination,
