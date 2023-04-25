@@ -20,17 +20,17 @@ public abstract class Depot_DAL<Type_DAL> : IDepot_DAL<Type_DAL>
     {
         try
         {
-            var builder = new ConfigurationBuilder();
-            var config = builder.AddJsonFile("./appsettings.json", false, true).Build();
+            //var builder = new ConfigurationBuilder();
+            //var config = builder.AddJsonFile("./appsettings.json", false, true).Build();
             // var connectionStringSection = config.GetSection("ConnectionStrings:BICE");
-            if (config == null)
-            {
-                throw new Exception("Configuration not found.");
-            }
+            //if (config == null)
+            //{
+            //    throw new Exception("Configuration not found.");
+            //}
             // ConString = connectionStringSection?.Value ?? throw new Exception($"Connection string not found : {connectionStringSection.Value}");
             
-            // TODO
-            ConString = "Data Source=localhost;Initial Catalog=BICE;User ID=SA;Password=Simon_sous_debiandu44!";
+            // TODO : gerer connection string dans appsettings.json 
+            ConString = "Data Source=DESKTOP-R84LS7N;Initial Catalog=BICE;Persist Security Info=True;User ID=Bice;Password=Bice";
         }
         catch (FileNotFoundException e)
         {

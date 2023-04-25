@@ -43,18 +43,13 @@ namespace BICE_WPF
             if (openFileDialog.ShowDialog() == true)
             {
                 var materiels = CSVParser.ParseCsvFile(openFileDialog.FileName);
-
-                Materiel_depot_DAL materielDepot = new Materiel_depot_DAL(); // Crée un objet Materiel_depot_DAL
-                
-                foreach (var materiel in materiels)
-                {
-                    Materiel_DAL materialDal = Converter.Materiel_DTO_To_DAL(materiel); // Convertit le DTO en DAL
-                    materielDepot.Insert(materialDal); // Insère le matériel dans la liste de matériel du dépôt
-                }
+                var Materiel_DTO = new Materiel_SRV();
+                Materiel_DTO.AddByList(materiels);
             }
 
             MessageBox.Show("Les données ont été importées avec succès.");
-
+            
+            //TODO: changer la methode add du materiel pour qu'elle utilise la methode Materiel_SRV.AddByList.
         }
     }
 }
