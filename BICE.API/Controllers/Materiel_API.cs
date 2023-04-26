@@ -32,15 +32,15 @@ public class Materiel_API
     
     [HttpPost]
     [Route("usedMaterial")]
-    public Material_DTO UpdateOnInterventionReturnUsedMaterial(Material_DTO materiel)
+    public List<Material_DTO> UpdateOnInterventionReturnUsedMaterial(List<Material_DTO> materiels)
     {
-        return service.UpdateOnInterventionReturnUsedMaterial(materiel);
+        return service.UpdateOnInterventionReturnUsedMaterials(materiels);
     }
     [HttpPost]
     [Route("notusedMaterial")]
-    public Material_DTO UpdateOnInterventionReturnNotUsedMaterial(Material_DTO materiel)
+    public List<Material_DTO> UpdateOnInterventionReturnNotUsedMaterial(List<Material_DTO> materiels)
     {
-        return service.UpdateOnInterventionReturnNotUsedMaterial(materiel);
+        return service.UpdateOnInterventionReturnNotUsedMaterials(materiels);
     }
 
 }

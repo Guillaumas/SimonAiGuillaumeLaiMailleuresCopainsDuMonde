@@ -30,15 +30,15 @@ public abstract class Depot_DAL<Type_DAL> : IDepot_DAL<Type_DAL>
             // ConString = connectionStringSection?.Value ?? throw new Exception($"Connection string not found : {connectionStringSection.Value}");
             
             // TODO : gerer connection string dans appsettings.json 
-            ConString = "Data Source=DESKTOP-R84LS7N;Initial Catalog=BICE;Persist Security Info=True;User ID=Bice;Password=Bice";
+            ConString = "Data Source=localhost;Initial Catalog=BICE;Persist Security Info=True;User ID=BICE;Password=Guigsetsimsimles+bgdu44";
+            //ConString = "Data Source=localhost;Initial Catalog=BICE;Persist Security Info=True;User ID=BICE;Password=Guigsetsimsimles+bgdu44";
         }
         catch (FileNotFoundException e)
         {
             Console.WriteLine($"File not found ======> {e.Message}");
             throw;
         }
-        
-
+        //TODO: SC - Verifier que EtatMateriel est rempli
     }
 
     

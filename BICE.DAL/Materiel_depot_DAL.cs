@@ -25,9 +25,26 @@ public class Materiel_depot_DAL : Depot_DAL<Materiel_DAL>
         return m;
     }
 
-    public override Materiel_DAL Update(Materiel_DAL p)
+    public override Materiel_DAL Update(Materiel_DAL m)
     {
-        throw new NotImplementedException();
+        InitialiseConnexionAndCommand();
+        Command.CommandText = @"UPDATE [dbo].[materiel] 
+                               SET [denomination] = @denomination, [nombre_utilisations] = @nombre_utilisations, 
+                                   [nombre_utilisations_limite] = @nombre_utilisations_limite, [date_expiration] = @date_expiration, 
+                                   [date_prochain_controle] = @date_prochain_controle, [id_categorie] = @id_categorie, [id_etat_materiel] = @id_etat_materiel
+                             WHERE [id]=@id";
+        Command.Parameters.Add(new SqlParameter("@id", m.Id));
+        Command.Parameters.Add(new SqlParameter("@code_barre", m.Code_barre));
+        Command.Parameters.Add(new SqlParameter("@nombre_utilisations", m.Nombre_utilisations));
+        Command.Parameters.Add(new SqlParameter("@nombre_utilisations_limite", m.Nombre_utilisations_limite ?? (object)DBNull.Value));
+        Command.Parameters.Add(new SqlParameter("@date_expiration", m.Date_expiration ?? (object)DBNull.Value));
+        Command.Parameters.Add(new SqlParameter("@date_prochain_controle", m.Date_prochain_controle ?? (object)DBNull.Value));
+        Command.Parameters.Add(new SqlParameter("@id_categorie", m.Id_categorie));
+        Command.Parameters.Add(new SqlParameter("@id_etat_materiel", m.Id_etat_materiel));
+        Command.Parameters.Add(new SqlParameter("@denomination", m.Denomination));
+        Command.ExecuteReader();
+        CloseAndDisposeConnexion();
+        return m;
     }
 
     public Materiel_DAL UpdateByCodeBarre(Materiel_DAL m)

@@ -1,4 +1,5 @@
 using System.ComponentModel.Design;
+using BICE.BLL;
 
 namespace BICE.SRV;
 using BICE.DTO;
@@ -13,9 +14,11 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
     
     protected Categorie_SRV categorieSRV;
     protected EtatMateriel_SRV etatMaterielSRV;
+    
 
     public Materiel_SRV()
     {
+        //TODO : trop de chose dans le constructeur??
         this.depot_materiel = new Materiel_depot_DAL();
         this.depot_EtatMateriel = new EtatMateriel_depot_DAL();
         this.categorieSRV = new Categorie_SRV();
@@ -76,7 +79,7 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
     {
         foreach (var dto in dtos)
         {
-            dto.Etat_materiel= "stock"; //TODO: bll??
+            dto.Etat_materiel= EtatMateriel.Stock; //TODO: bll??
             Add(dto);
         }
 
@@ -130,60 +133,82 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         return dto;
     }
     
-    public Material_DTO UpdateOnInterventionReturnUsedMaterial(Material_DTO dto)
+    public List<Material_DTO> UpdateOnInterventionReturnUsedMaterials(List<Material_DTO> dtos)
     {
-        var materielDAL = depot_materiel.GetByCodeBarre(dto.Code_barre);
-        if (materielDAL != null)
+        List<Material_DTO> newDtos = new List<Material_DTO>();
+        if (dtos != null || dtos.Count == 0)
         {
-            //TODO:Gérer l'erreur...
-            materielDAL.Nombre_utilisations += 1;
-            materielDAL.Id_etat_materiel = depot_EtatMateriel.GetByDenomination("stock").Id; //TODO: SI le stock porte un autre nom, il faut le changer ici
+            foreach (var dto in dtos)
+            {
+                var materielDAL = depot_materiel.GetByCodeBarre(dto.Code_barre);
+                if (materielDAL != null)
+                {
+                    //TODO:Gérer l'erreur...
+                    Materiel_BLL materielBll = new Materiel_BLL(materielDAL.Nombre_utilisations, materielDAL.Id_etat_materiel, materielDAL.Nombre_utilisations_limite, materielDAL.Date_expiration);
+                    materielBll.UpdateOnInterventionReturnUsedMaterial();
+                    
+                    materielDAL.Nombre_utilisations = materielBll.Nombre_utilisation;
+                    materielDAL.Id_etat_materiel = materielBll.Id_Etat_materiel;
+                    
+                    depot_materiel.Update(materielDAL);
 
-        
-            depot_materiel.UpdateByCodeBarre(materielDAL);
-        
-            dto.Denomination = materielDAL.Denomination;
-            dto.Code_barre = materielDAL.Code_barre;
-            dto.Nombre_utilisations = materielDAL.Nombre_utilisations;
-            dto.Nombre_utilisations_limite = materielDAL.Nombre_utilisations_limite;
-            dto.Date_expiration = materielDAL.Date_expiration;
-            dto.Date_prochain_controle = materielDAL.Date_prochain_controle;
-            
-            dto.Etat_materiel = depot_EtatMateriel.GetById(materielDAL.Id_etat_materiel).Denomination;
-            dto.Categorie = depot_categorie.GetById(materielDAL.Id_categorie).Denomination;
-            dto.Id_Categorie = materielDAL.Id_categorie;
-            dto.Id_Etat_materiel = materielDAL.Id_etat_materiel;
+                    newDtos.Add(CreateDtoByDal(materielDAL));
+                }
+            }
+            return newDtos;
         }
-        return dto;
+        return dtos;
     }
     
-    public Material_DTO UpdateOnInterventionReturnNotUsedMaterial(Material_DTO dto)
+    public List<Material_DTO> UpdateOnInterventionReturnNotUsedMaterials(List<Material_DTO> dtos)
     {
-        //TODO: A faire
-        var materielDAL = depot_materiel.GetByCodeBarre(dto.Code_barre);
-        if (materielDAL != null)
+        List<Material_DTO> newDtos = new List<Material_DTO>();
+        if (dtos != null || dtos.Count == 0)
         {
-            //TODO:Gérer l'erreur...
-            
-            dto.Denomination = materielDAL.Denomination;
-            dto.Code_barre = materielDAL.Code_barre;
-            dto.Nombre_utilisations = materielDAL.Nombre_utilisations;
-            dto.Nombre_utilisations_limite = materielDAL.Nombre_utilisations_limite;
-            dto.Date_expiration = materielDAL.Date_expiration;
-            dto.Date_prochain_controle = materielDAL.Date_prochain_controle;
-            
-            dto.Etat_materiel = depot_EtatMateriel.GetById(materielDAL.Id_etat_materiel).Denomination;
-            dto.Categorie = depot_categorie.GetById(materielDAL.Id_categorie).Denomination;
-            dto.Id_Categorie = materielDAL.Id_categorie;
-            dto.Id_Etat_materiel = materielDAL.Id_etat_materiel;
+            foreach (var dto in dtos)
+            {
+                var materielDAL = depot_materiel.GetByCodeBarre(dto.Code_barre);
+                if (materielDAL != null)
+                {
+                    
+                    Materiel_BLL materielBll = new Materiel_BLL(materielDAL.Id_etat_materiel, materielDAL.Date_expiration);
+                    materielBll.UpdateOnInterventionReturnNotUsedMaterial();
+                    materielDAL.Id_etat_materiel = materielBll.Id_Etat_materiel;
+                    
+                    depot_materiel.Update(materielDAL);
+                    
+                    newDtos.Add(CreateDtoByDal(materielDAL));
+                }
+            }
+            return newDtos;
         }
-        return dto;
+    return dtos;
     }
 
     public void Delete(Material_DTO dto)
     {
         throw new NotImplementedException();
     }
+    
+    
+    
+    //TODO: Bonne pratique??
+    public Material_DTO CreateDtoByDal(Materiel_DAL materielDAL)
+    {
+        var dto = new Material_DTO();
+        dto.Denomination = materielDAL.Denomination;
+        dto.Code_barre = materielDAL.Code_barre;
+        dto.Nombre_utilisations = materielDAL.Nombre_utilisations;
+        dto.Nombre_utilisations_limite = materielDAL.Nombre_utilisations_limite;
+        dto.Date_expiration = materielDAL.Date_expiration;
+        dto.Date_prochain_controle = materielDAL.Date_prochain_controle;
+        dto.Etat_materiel = depot_EtatMateriel.GetById(materielDAL.Id_etat_materiel).Denomination;
+        dto.Categorie = depot_categorie.GetById(materielDAL.Id_categorie).Denomination;
+        dto.Id_Categorie = materielDAL.Id_categorie;
+        dto.Id_Etat_materiel = materielDAL.Id_etat_materiel;
+
+        return dto;
+    }
 }
 
-//TODO: faire fonction de creation dto by dal like: "dto.Id_Categorie = materielDAL.Id_categorie; dto.Id_Etat_materiel = materielDAL.Id_etat_materiel; (...)"
+//TODO: unique code barre

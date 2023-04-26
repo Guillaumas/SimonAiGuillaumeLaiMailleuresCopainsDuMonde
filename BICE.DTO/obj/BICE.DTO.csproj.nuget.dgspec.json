@@ -1,33 +1,98 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DTO\\BICE.DTO.csproj": {}
+    "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DTO/BICE.DTO.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DTO\\BICE.DTO.csproj": {
+    "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DAL/BICE.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DTO\\BICE.DTO.csproj",
-        "projectName": "BICE.DTO",
-        "projectPath": "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DTO\\BICE.DTO.csproj",
-        "packagesPath": "C:\\Users\\Blue\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DTO\\obj\\",
+        "projectUniqueName": "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DAL/BICE.DAL.csproj",
+        "projectName": "BICE.DAL",
+        "projectPath": "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DAL/BICE.DAL.csproj",
+        "packagesPath": "/home/simsim/.nuget/packages/",
+        "outputPath": "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DAL/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Blue\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/simsim/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[8.0.0-preview.2.23128.3, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/simsim/.dotnet/sdk/6.0.407/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DTO/BICE.DTO.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DTO/BICE.DTO.csproj",
+        "projectName": "BICE.DTO",
+        "projectPath": "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DTO/BICE.DTO.csproj",
+        "packagesPath": "/home/simsim/.nuget/packages/",
+        "outputPath": "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DTO/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/simsim/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DAL/BICE.DAL.csproj": {
+                "projectPath": "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DAL/BICE.DAL.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -55,7 +120,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/simsim/.dotnet/sdk/6.0.407/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -31,7 +31,7 @@ public class EtatMateriel_depot_DAL : Depot_DAL<EtatMateriel_DAL>
         return em;
     }
     
-    public EtatMateriel_DAL GetByDenomination(string denomination)
+    public EtatMateriel_DAL GetByDenomination(EtatMateriel denomination)
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"SELECT [id]

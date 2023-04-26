@@ -12,7 +12,7 @@ public class EtatMateriel_SRV : BICE_SRV<EtatMaterial_DTO>
         this.depot_etatMateriel = new EtatMateriel_depot_DAL();
     }
     
-    public EtatMaterial_DTO GetByDenomination(string? denomination)
+    public EtatMaterial_DTO GetByDenomination(EtatMateriel? denomination)
     {
         var etatMaterielDAL = depot_etatMateriel.GetByDenomination(denomination);
         

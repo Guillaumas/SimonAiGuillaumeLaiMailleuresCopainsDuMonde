@@ -1,3 +1,5 @@
+using BICE.DAL; //TODO: Bonne Pratique??
+
 namespace BICE.DTO;
 
 public class Material_DTO : BICE_DTO
@@ -9,6 +11,6 @@ public class Material_DTO : BICE_DTO
     public DateTime? Date_prochain_controle { get; set; }
     public string? Categorie { get; set; }
     public int? Id_Categorie { get; set; }
-    public string? Etat_materiel { get; set; }
+    public EtatMateriel Etat_materiel { get; set; }
     public int? Id_Etat_materiel { get; set; }
 }
