@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddSingleton(typeof(Materiel_SRV), new Materiel_SRV());
 builder.Services.AddSingleton(typeof(Vehicule_SRV), new Vehicule_SRV());
+builder.Services.AddSingleton(typeof(Intervention_SRV), new Intervention_SRV());
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

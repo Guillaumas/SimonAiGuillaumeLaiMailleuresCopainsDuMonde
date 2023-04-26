@@ -92,7 +92,7 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         //TODO : review, bonne pratique?
         if (id_categorie != categorieSRV.GetByDenomination("stock").Id)
         {
-            
+            //TODO: to complete
         }
 
         var materielDAL = new Materiel_DAL(
