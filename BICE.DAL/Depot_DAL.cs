@@ -62,9 +62,8 @@ public abstract class Depot_DAL<Type_DAL> : IDepot_DAL<Type_DAL>
             Command.Dispose();
         }       
     }
+
     
-
-
     
     public abstract IEnumerable<Type_DAL> GetAll();
     public abstract void Delete(Type_DAL p);

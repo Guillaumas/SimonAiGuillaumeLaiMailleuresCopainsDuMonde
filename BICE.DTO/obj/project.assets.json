@@ -368,10 +368,21 @@
           "buildTransitive/net6.0/System.Text.Json.targets": {}
         }
       },
+      "BICE.BLL/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/BICE.BLL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BICE.BLL.dll": {}
+        }
+      },
       "BICE.DAL/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "BICE.BLL": "1.0.0",
           "Microsoft.Extensions.Configuration.Json": "8.0.0-preview.2.23128.3",
           "System.Data.SqlClient": "4.8.5"
         },
@@ -1066,6 +1077,11 @@
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "BICE.BLL/1.0.0": {
+      "type": "project",
+      "path": "../BICE.BLL/BICE.BLL.csproj",
+      "msbuildProject": "../BICE.BLL/BICE.BLL.csproj"
     },
     "BICE.DAL/1.0.0": {
       "type": "project",

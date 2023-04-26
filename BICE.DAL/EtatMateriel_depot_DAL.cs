@@ -1,4 +1,5 @@
 namespace BICE.DAL;
+using BICE.BLL; //TODO: Bonne pratique???
 using System.Data.SqlClient;
 
 public class EtatMateriel_depot_DAL : Depot_DAL<EtatMateriel_DAL>
@@ -20,9 +21,10 @@ public class EtatMateriel_depot_DAL : Depot_DAL<EtatMateriel_DAL>
         EtatMateriel_DAL em = null;
         if (reader.Read())
         {
+            var etat = (string)reader["etat"];
             em = new EtatMateriel_DAL(
                 (int)reader["id"],
-                (string)reader["etat"]
+                (EtatMateriel_BLL.EtatMateriel)Enum.Parse(typeof(EtatMateriel_BLL.EtatMateriel), etat)
             );
         }
 
@@ -31,24 +33,26 @@ public class EtatMateriel_depot_DAL : Depot_DAL<EtatMateriel_DAL>
         return em;
     }
     
-    public EtatMateriel_DAL GetByDenomination(EtatMateriel denomination)
+    public EtatMateriel_DAL GetByDenomination(EtatMateriel_BLL.EtatMateriel denomination)
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"SELECT [id]
                                   ,[etat]
                               FROM [dbo].[etat_materiel]
                               WHERE etat=@denomination";
-        Command.Parameters.Add(new SqlParameter("@denomination", denomination));
+        Command.Parameters.Add(new SqlParameter("@denomination", denomination.ToString()));
         var reader = Command.ExecuteReader();
-        
+
         EtatMateriel_DAL em = null;
         if (reader.Read())
-        {
+        {        
+            
             em = new EtatMateriel_DAL(
                 (int)reader["id"],
-                (string)reader["etat"]
+                denomination
             );
-        }
+        }        
+
         CloseAndDisposeConnexion();
         return em;
     }
