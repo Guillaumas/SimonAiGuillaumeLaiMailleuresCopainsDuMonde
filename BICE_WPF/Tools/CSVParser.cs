@@ -17,7 +17,7 @@ namespace BICE.WPF.Tools
             using (TextFieldParser parser = new TextFieldParser(csvFilePath))
             {
                 parser.TextFieldType = FieldType.Delimited; // Définit le type de fichier à traiter
-                parser.SetDelimiters(","); // Définit le délimiteur de champ
+                parser.SetDelimiters(";"); // Définit le délimiteur de champ
 
                 while (!parser.EndOfData) // Tant qu'il reste des lignes à lire
                 {
@@ -26,9 +26,9 @@ namespace BICE.WPF.Tools
 
                     Material_DTO materiel = new Material_DTO
                     {
-                        Id = int.Parse(fields[0]),
+                        Code_barre = fields[0],
                         Denomination = fields[1],
-                        Code_barre = fields[2],
+                        Categorie = fields[2],
                         Nombre_utilisations = int.Parse(fields[3]),
                         Nombre_utilisations_limite = string.IsNullOrEmpty(fields[4]) ? (int?)null : int.Parse(fields[4]),
                         Date_expiration = string.IsNullOrEmpty(fields[5]) ? (DateTime?)null : DateTime.Parse(fields[5]),

@@ -74,9 +74,9 @@ public class Materiel_depot_DAL : Depot_DAL<Materiel_DAL>
         
         var materiels = new List<Materiel_DAL>();
         
-        if (!reader.HasRows)
+        if (!reader.HasRows) // check si la base de données est vide
         {
-            throw new Exception("Reader is empty");
+            throw new Exception("Reader is empty"); //TODO: create custom exception si la base de données est vide
         }
 
         
