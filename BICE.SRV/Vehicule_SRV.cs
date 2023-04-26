@@ -12,10 +12,7 @@ public class Vehicule_SRV : BICE_SRV<Vehicule_DTO>
         this.depot_vehicule = new Vehicule_depot_DAL();
     }
     
-    public Vehicule_DTO GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
+
 
     public List<Vehicule_DTO> GetAll()
     {
@@ -55,6 +52,7 @@ public class Vehicule_SRV : BICE_SRV<Vehicule_DTO>
     {
         var vDAL = new Vehicule_DAL(
             dto.Id,
+            dto.Numero,
             dto.Denomination,
             dto.Immatriculation,
             dto.Actif);
@@ -81,12 +79,20 @@ public class Vehicule_SRV : BICE_SRV<Vehicule_DTO>
         };
     }
     
+    
+    
+    
+    //TODO: SC - del this shit??
     public Vehicule_DTO Update(Vehicule_DTO dto)
     {
         throw new NotImplementedException();
     }
 
     public void Delete(Vehicule_DTO dto)
+    {
+        throw new NotImplementedException();
+    }
+    public Vehicule_DTO GetById(int id)
     {
         throw new NotImplementedException();
     }

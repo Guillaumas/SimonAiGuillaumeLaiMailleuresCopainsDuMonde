@@ -14,4 +14,5 @@ public class Material_DTO : BICE_DTO
     public EtatMateriel_BLL.EtatMateriel Etat_materiel { get; set; }
     public int Id_Etat_materiel { get; set; }
     public string? String_Etat_materiel { get; set; }
+    public int? Id_vehicule { get; set; }
 }

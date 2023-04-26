@@ -79,6 +79,22 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         return dtos;
     }
 
+    public List<Material_DTO> UpdateByVehicule(Vehicule_DTO vehiculeDto, List<Material_DTO> materialDtos)
+    {
+        var vehiculeDal = depot_vehicule.GetByNumeros(vehiculeDto.Numero);
+        if (materialDtos != null || materialDtos.Count == 0)
+        {
+            foreach (var materialDto in materialDtos)
+            {
+                var materielDal = CreateDalByDto(materialDto);
+                materielDal.Id_vehicule = vehiculeDal.Id;
+                materialDto.Id_vehicule = vehiculeDal.Id;
+                depot_materiel.UpdateByCodeBarre(materielDal);
+            }
+        }
+        return materialDtos;
+    }
+
     public List<Material_DTO> UpdateOnInterventionReturnUsedMaterials(List<Material_DTO> dtos)
     {
         List<Material_DTO> newDtos = new List<Material_DTO>();
@@ -137,12 +153,10 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         return dtos;
     }
 
-    public void Delete(Material_DTO dto)
-    {
-        throw new NotImplementedException();
-    }
 
 
+    //TODO fare une fonction de verif (verifi que la liste n'est pas vide, retourn null sinon
+    
     //TODO: Bonne pratique??
     public Material_DTO CreateDtoByDal(Materiel_DAL materielDAL)
     {
@@ -160,6 +174,7 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         dto.String_Etat_materiel = depot_EtatMateriel.GetById(materielDAL.Id_etat_materiel).Denomination.ToString();
         dto.Id_Categorie = materielDAL.Id_categorie;
         dto.Id_Etat_materiel = materielDAL.Id_etat_materiel;
+        dto.Id_vehicule = materielDAL.Id_vehicule;
         return dto;
     }
 
@@ -173,9 +188,12 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
             dto.Date_expiration,
             dto.Date_prochain_controle,
             dto.Id_Categorie,
-            dto.Id_Etat_materiel);
+            dto.Id_Etat_materiel,
+            dto.Id_vehicule);
         return materielDAL;
     }
+    
+    
     
     
     
@@ -224,6 +242,12 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         // materielDal.Id_etat_materiel = etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Stock).Id;
         // depot_materiel.UpdateByCodeBarre(materielDal);
         // return dto;
+    }
+    
+    public void Delete(Material_DTO dto)
+    {
+        //TODO: SC - del this shit
+        throw new NotImplementedException();
     }
 
 }

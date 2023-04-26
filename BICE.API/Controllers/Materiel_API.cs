@@ -1,4 +1,5 @@
 using BICE.BLL;
+using BICE.DAL;
 using BICE.DTO;
 using BICE.SRV;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,12 @@ public class Materiel_API
     {
         return service.UpdateByStock(materiel);
     }
-    
+    [HttpPost]
+    [Route("updateVehicule")]
+    public List<Material_DTO> UpdateByVehicule()
+    {
+        return new List<Material_DTO>();
+    }
     [HttpPost]
     [Route("usedMaterial")]
     public List<Material_DTO> UpdateOnInterventionReturnUsedMaterial(List<Material_DTO> materiels)
