@@ -10,8 +10,8 @@ public class Material_DTO : BICE_DTO
     public DateTime? Date_expiration { get; set; }
     public DateTime? Date_prochain_controle { get; set; }
     public string? Categorie { get; set; }
-    public int? Id_Categorie { get; set; }
+    public int Id_Categorie { get; set; }
     public EtatMateriel_BLL.EtatMateriel Etat_materiel { get; set; }
-    public int? Id_Etat_materiel { get; set; }
+    public int Id_Etat_materiel { get; set; }
     public string? String_Etat_materiel { get; set; }
 }

@@ -1,3 +1,5 @@
+using BICE.BLL;
+
 namespace BICE.DAL;
 using System.Data.SqlClient;
 
@@ -199,5 +201,40 @@ public class Materiel_depot_DAL : Depot_DAL<Materiel_DAL>
         }
         CloseAndDisposeConnexion();
         return m;
+    }
+
+    public List<Materiel_DAL> GetALLByEtatMateriel(EtatMateriel_DAL em)
+    {
+        //TODO: recupere tout les objet à jeter dans le WPF
+        InitialiseConnexionAndCommand();
+        Command.CommandText = @"SELECT [id], [code_barre], [denomination], [nombre_utilisations], [nombre_utilisations_limite], [date_expiration], [date_prochain_controle], [id_categorie], [id_etat_materiel]
+                             FROM [dbo].[materiel]
+                             WHERE id_etat_materiel=@id_etat_materiel";
+        Command.Parameters.Add(new SqlParameter("@id_etat_materiel", em.Id));
+        var reader = Command.ExecuteReader();
+        
+        var materiels = new List<Materiel_DAL>();
+
+        while (reader.Read())
+        {
+            materiels.Add(new Materiel_DAL(
+                (int)reader["id"],
+                (string)reader["denomination"],
+                (string)reader["code_barre"],
+                (int)reader["nombre_utilisations"],
+                reader["nombre_utilisations_limite"] != DBNull.Value ? (int)reader["nombre_utilisations_limite"] : null,
+                reader["date_expiration"] != DBNull.Value ? (DateTime)reader["date_expiration"] : null,
+                reader["date_prochain_controle"] != DBNull.Value ? (DateTime)reader["date_prochain_controle"] : null,
+                (int)reader["id_categorie"],
+                (int)reader["id_etat_materiel"]
+            ));
+        }
+        CloseAndDisposeConnexion();
+        
+        if (materiels.Count == 0 || materiels == null) 
+        {
+            throw new Exception("MaterielsDAL is null or empty");
+        }
+        return materiels;
     }
 }
