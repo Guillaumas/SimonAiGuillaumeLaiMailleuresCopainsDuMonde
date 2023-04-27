@@ -7,22 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <Button x:Name="btnLoadCsv" Content="Importer matériel" Click="BtnLoadCsv_Click" Margin="10"/>
-
-        <DataGrid x:Name="MaterielDataGrid" Grid.Row="1" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Dénomination" Binding="{Binding Denomination}"/>
-                <DataGridTextColumn Header="Code barre" Binding="{Binding Code_barre}"/>
-                <DataGridTextColumn Header="Nombre d'utilisations" Binding="{Binding Nombre_utilisations}"/>
-                <DataGridTextColumn Header="Nombre d'utilisations limite" Binding="{Binding Nombre_utilisations_limite}"/>
-                <DataGridTextColumn Header="Date d'expiration" Binding="{Binding Date_expiration}"/>
-                <DataGridTextColumn Header="Date du prochain contrôle" Binding="{Binding Date_prochain_controle}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        
     </Grid>
 </Window>
