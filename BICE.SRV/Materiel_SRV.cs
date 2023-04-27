@@ -137,12 +137,10 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         return dtos;
     }
 
-    public void Delete(Material_DTO dto)
-    {
-        throw new NotImplementedException();
-    }
 
-
+    
+    
+    
     //TODO: Bonne pratique??
     public Material_DTO CreateDtoByDal(Materiel_DAL materielDAL)
     {
@@ -224,6 +222,12 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         // materielDal.Id_etat_materiel = etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Stock).Id;
         // depot_materiel.UpdateByCodeBarre(materielDal);
         // return dto;
+    }
+    
+    public void Delete(Material_DTO dto)
+    {
+        throw new NotImplementedException();
+        //TODO: Del this shit
     }
 
 }
