@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:BICE.WPF.Pages"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="page1_grid" Background="White">
+    <Grid x:Name="ImportMaterielGrid">
             
     </Grid>
 </UserControl>

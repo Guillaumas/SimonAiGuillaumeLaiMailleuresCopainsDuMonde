@@ -51,11 +51,11 @@ namespace BICE.WPF.Pages
         private void InitializeImportMateriel()
         {
             // Ajout des rangées
-            page1_grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
-            page1_grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            ImportMaterielGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
+            ImportMaterielGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             // Ajout des colonnes
-            page1_grid.ColumnDefinitions.Add(new ColumnDefinition());
-            page1_grid.ColumnDefinitions.Add(new ColumnDefinition());
+            ImportMaterielGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            ImportMaterielGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
             // Création du DataGrid
             dataGrid = new DataGrid
@@ -72,7 +72,7 @@ namespace BICE.WPF.Pages
                 Content = "Charger CSV",
             };
             BtnLoadCsv.Click += BtnLoadCsv_Click;
-            page1_grid.Children.Add(BtnLoadCsv);
+            ImportMaterielGrid.Children.Add(BtnLoadCsv);
             Grid.SetRow(BtnLoadCsv, 0);
             Grid.SetColumn(BtnLoadCsv, 0);
 
@@ -81,12 +81,12 @@ namespace BICE.WPF.Pages
                 Content = "Confirmer",
             };
             BtnConfirmer.Click += BtnConfirmer_Click;
-            page1_grid.Children.Add(BtnConfirmer);
+            ImportMaterielGrid.Children.Add(BtnConfirmer);
             Grid.SetRow(BtnConfirmer, 0);
             Grid.SetColumn(BtnConfirmer, 1);
 
             // Ajout du DataGrid au Grid principal
-            page1_grid.Children.Add(dataGrid);
+            ImportMaterielGrid.Children.Add(dataGrid);
             Grid.SetRow(dataGrid, 1);
             Grid.SetColumn(dataGrid, 0);
             Grid.SetColumnSpan(dataGrid, 2);

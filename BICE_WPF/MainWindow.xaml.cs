@@ -43,8 +43,14 @@ namespace BICE_WPF
 
             var tabItem3 = new TabItem
             {
-                Header = "Page 3",
+                Header = "Vehicule",
                 Content = new Vehicule()
+            };
+            
+            var tabItem4 = new TabItem
+            {
+                Header = "Materiel",
+                Content = new Materiel()
             };
 
             // Ajouter les pages au TabControl
@@ -52,17 +58,41 @@ namespace BICE_WPF
             mainTabControl.Items.Add(tabItem1);
             mainTabControl.Items.Add(tabItem2);
             mainTabControl.Items.Add(tabItem3);
+            mainTabControl.Items.Add(tabItem4);
 
             // Ajouter le TabControl à la fenêtre principale
             this.Content = mainTabControl;
         }
     }
 }
-//todo : pour la mise a jour du materiel en perdu, pour le differentiel 2 post par simon et
- //todo : moi je fais differentiel via comparaison et faire un update
- //todo : avec une liste materieldto et tant que pas de reponse pas possible de fermer le wpf
- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- //todo :  autre methode : insertion des 2 listes dans wpf puis envoyer une
- //todo : fois que les 2 listes sont ok avec le meme numero de vehicule (securite check) appui
- //todo : bouton confirmer et envoie sur 3 routes distinctes pour materiel utilisé, materiel non utilisé et
- //todo : enfin numéro de vehicule et api fais le reste (le materiel restant dans le vehicule est jeté).
+//todo :  autre methode : insertion des 2 listes dans wpf puis envoyer une
+//todo : fois que les 2 listes sont ok avec le meme numero de vehicule (securite check) appui
+//todo : bouton confirmer et envoie sur 3 routes distinctes pour materiel utilisé, materiel non utilisé et
+//todo : enfin numéro de vehicule et api fais le reste (le materiel restant dans le vehicule est jeté).
+
+
+//import de materiel - import materiel
+
+
+
+//    Exporter en format csv la liste de smateriel du stcok - materiel
+//Voir les materiels - materiel
+//Ajouter une liste de materiel du stock - materiel
+
+
+
+//Ajouter une liste de materiel utilisé au retour d'intervention - retour interv
+//    Ajouter une liste de materiel NON utilisé au retour d'intervention - retour interv
+//    Voir la liste des materiel a jetter - retour interv
+//    Exporter la liste des materiel a jetter - retour interv
+
+
+
+
+
+//    Ajouter un vehicule - vehicule
+//modifier - vehicule
+//suprimer - vehicule
+//Ajouter une liste de materiel dans un vehicule - vehicule
+//Voir les materiel dans un vehicule - vehicule
+
