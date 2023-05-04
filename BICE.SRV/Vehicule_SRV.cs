@@ -26,7 +26,8 @@ public class Vehicule_SRV : BICE_SRV<Vehicule_DTO>
                 Id = vehiculeDAL.Id,
                 Denomination = vehiculeDAL.Denomination,
                 Immatriculation = vehiculeDAL.Immatriculation,
-                Actif = vehiculeDAL.Actif
+                Actif = vehiculeDAL.Actif,
+                Numero = vehiculeDAL.Numero
             });
         }
 

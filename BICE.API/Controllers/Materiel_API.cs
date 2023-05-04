@@ -40,11 +40,12 @@ public class Materiel_API
         return service.UpdateByStock(materiel);
     }
     [HttpPost]
-    [Route("updateVehicule")]
-    public List<Material_DTO> UpdateByVehicule()
+    [Route("updateVehicule/{numeroVehicule}")]
+    public List<Material_DTO> UpdateByVehicule(List<Material_DTO> materiels, string numeroVehicule)
     {
-        return new List<Material_DTO>();
+        return service.UpdateByVehicule(numeroVehicule, materiels);
     }
+    
     [HttpPost]
     [Route("usedMaterial")]
     public List<Material_DTO> UpdateOnInterventionReturnUsedMaterial(List<Material_DTO> materiels)
@@ -56,6 +57,12 @@ public class Materiel_API
     public List<Material_DTO> UpdateOnInterventionReturnNotUsedMaterial(List<Material_DTO> materiels)
     {
         return service.UpdateOnInterventionReturnNotUsedMaterials(materiels);
+    }
+    [HttpGet]
+    [Route("LostMaterial/{numeroVehicule}")]
+    public List<Material_DTO> UpdateOnInterventionReturnLostMaterialsByNumeroVehicule(string numeroVehicule)
+    {
+        return service.UpdateOnInterventionReturnLostMaterialsByNumeroVehicule(numeroVehicule);
     }
 
 }
