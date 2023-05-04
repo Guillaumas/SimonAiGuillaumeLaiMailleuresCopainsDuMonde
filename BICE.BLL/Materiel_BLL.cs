@@ -39,7 +39,7 @@ public class Materiel_BLL
     
     public void UpdateOnInterventionReturnNotUsedMaterial()
     {
-        SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.Stock);
+        // SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.Stock);
         if (Date_expiration != null)
             if (Date_expiration < DateTime.Now)
                 SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.AJeter);

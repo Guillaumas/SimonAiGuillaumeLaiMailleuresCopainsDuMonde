@@ -17,7 +17,7 @@ public class Vehicule_depot_DAL : Depot_DAL<Vehicule_DAL>
          {
              vDAL = new Vehicule_DAL(
                  (int)reader["id"],
-                 (string)reader["numeros"],
+                 (string)reader["numero"],
                  (string)reader["denomination"],
                  (string)reader["immatriculation"],
                  (bool)reader["actif"]);
@@ -37,7 +37,7 @@ public class Vehicule_depot_DAL : Depot_DAL<Vehicule_DAL>
         {
             vDAL = new Vehicule_DAL(
                 (int)reader["id"],
-                (string)reader["numeros"],
+                (string)reader["numero"],
                 (string)reader["denomination"],
                 (string)reader["immatriculation"],
                 (bool)reader["actif"]);
@@ -76,7 +76,7 @@ public class Vehicule_depot_DAL : Depot_DAL<Vehicule_DAL>
         {
             vehicules.Add( new Vehicule_DAL(
                 (int)reader["id"],
-                (string)reader["numeros"],
+                (string)reader["numero"],
                 (string)reader["denomination"],
                 (string)reader["immatriculation"],
                 (bool)reader["actif"]
