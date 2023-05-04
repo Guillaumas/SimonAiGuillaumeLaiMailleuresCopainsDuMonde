@@ -84,6 +84,16 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
     public List<Material_DTO> UpdateByVehicule(string numeroVehicule, List<Material_DTO> materialDtos)
     {
         var vehiculeDal = depot_vehicule.GetByNumeros(numeroVehicule);
+
+        //TODO: Obligé de tej les ancien materiel???
+        var materielsToAddToStock = depot_materiel.GetAllByIdVehicule(vehiculeDal.Id);
+        foreach (var mat in materielsToAddToStock)
+        {
+            mat.Id_etat_materiel = etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Stock).Id;
+            depot_materiel.Update(mat);
+        }
+
+
         if (materialDtos != null || materialDtos.Count == 0)
         {
             foreach (var materialDto in materialDtos)
@@ -158,7 +168,7 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
 
         return dtos;
     }
-    
+
     public List<Material_DTO> UpdateOnInterventionReturnLostMaterialsByNumeroVehicule(string numeroVehicule)
     {
         List<Material_DTO> materielsDTO = new List<Material_DTO>();
@@ -260,7 +270,7 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         // depot_materiel.UpdateByCodeBarre(materielDal);
         // return dto;
     }
-    
+
     public void Delete(Material_DTO dto)
     {
         throw new NotImplementedException();
