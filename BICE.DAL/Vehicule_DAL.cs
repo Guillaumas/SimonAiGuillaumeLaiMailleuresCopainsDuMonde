@@ -10,4 +10,6 @@ public class Vehicule_DAL
     
     public Vehicule_DAL(int id, string numero, string denomination, string immatriculation, bool actif) 
         => (Id, Numero, Denomination, Immatriculation, Actif) = (id, numero,denomination, immatriculation, actif);
+    public Vehicule_DAL(string numero, string denomination, string immatriculation, bool actif) 
+        => (Numero, Denomination, Immatriculation, Actif) = (numero,denomination, immatriculation, actif);
 }

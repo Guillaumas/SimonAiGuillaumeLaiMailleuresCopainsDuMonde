@@ -68,6 +68,11 @@ public class Vehicule_SRV : BICE_SRV<Vehicule_DTO>
         return dto;
     }
 
+    public Vehicule_DTO Update(Vehicule_DTO dto)
+    {
+        throw new NotImplementedException();
+    }
+
     public Vehicule_DTO GetByDenomination(string d)
     {
         var vDAL = depot_vehicule.GetByDenomination(d);
@@ -80,21 +85,54 @@ public class Vehicule_SRV : BICE_SRV<Vehicule_DTO>
         };
     }
     
-    
-    
-    
-    //TODO: SC - del this shit??
-    public Vehicule_DTO Update(Vehicule_DTO dto)
+    public Vehicule_DTO Update(Vehicule_DTO dto, string numeroVehicule)
     {
-        throw new NotImplementedException();
+        var vehiculeDal = depot_vehicule.GetByNumeros(numeroVehicule);
+        var newVehiculeDal = CreateDalByDto(dto);
+        newVehiculeDal.Id = vehiculeDal.Id;
+        dto.Id = vehiculeDal.Id;
+        depot_vehicule.Update(newVehiculeDal);
+        return dto;
     }
 
+    public Vehicule_DTO DeleteByNumeroVehicule(string numeroVehicule)
+    {
+        var vehiculeDal = depot_vehicule.GetByNumeros(numeroVehicule);
+        var vehiculeDto = new Vehicule_DTO()
+        {
+            Id = vehiculeDal.Id,
+            Denomination = vehiculeDal.Denomination,
+            Immatriculation = vehiculeDal.Immatriculation,
+            Actif = vehiculeDal.Actif,
+            Numero = vehiculeDal.Numero
+        };
+        //TODO: Verifier si le vehicule a été utilisé en regardant les historiques
+        // depot_vehicule.Delete(vehiculeDal);
+        return vehiculeDto;
+    }
+    
     public void Delete(Vehicule_DTO dto)
     {
         throw new NotImplementedException();
     }
+    
+    //TODO: SC - del this shit??
     public Vehicule_DTO GetById(int id)
     {
         throw new NotImplementedException();
     }
+    
+    public Vehicule_DAL CreateDalByDto(Vehicule_DTO dto)
+    {
+        var materielDAL = new Vehicule_DAL(
+            dto.Numero,
+            dto.Denomination,
+            dto.Immatriculation,
+            dto.Actif
+        );
+        return materielDAL;
+    }
 }
+
+//TODO: enlever les createDtoByDal, chaque dto doit etre personnalisé en fonction de se que l'on veux envoyer
+//TODO: ajout secu: si on entre un immatriculatioin ou numero de vehicule deja exstant
