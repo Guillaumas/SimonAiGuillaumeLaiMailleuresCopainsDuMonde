@@ -1,3 +1,4 @@
+using BICE.BLL;
 using BICE.DAL;
 using BICE.DTO;
 
@@ -6,14 +7,13 @@ namespace BICE.SRV;
 public class Vehicule_SRV : BICE_SRV<Vehicule_DTO>
 {
     protected Vehicule_depot_DAL depot_vehicule;
-    
+    protected HistoriqueInterventionVehiculeDepot_DAL depot_historique_intervention_vehicule;
     public Vehicule_SRV()
     {
         this.depot_vehicule = new Vehicule_depot_DAL();
+        this.depot_historique_intervention_vehicule = new HistoriqueInterventionVehiculeDepot_DAL();
     }
     
-
-
     public List<Vehicule_DTO> GetAll()
     {
         var vehiculesDAL = new Vehicule_depot_DAL().GetAll();
@@ -21,14 +21,17 @@ public class Vehicule_SRV : BICE_SRV<Vehicule_DTO>
 
         foreach (var vehiculeDAL in vehiculesDAL)
         {
-            vehiculesDTO.Add(new Vehicule_DTO()
-            {
-                Id = vehiculeDAL.Id,
-                Denomination = vehiculeDAL.Denomination,
-                Immatriculation = vehiculeDAL.Immatriculation,
-                Actif = vehiculeDAL.Actif,
-                Numero = vehiculeDAL.Numero
-            });
+            var newVehiculeDTo = new Vehicule_DTO();
+            newVehiculeDTo.Id = vehiculeDAL.Id;
+            newVehiculeDTo.Denomination = vehiculeDAL.Denomination;
+            newVehiculeDTo.Immatriculation = vehiculeDAL.Immatriculation;
+            newVehiculeDTo.Actif = vehiculeDAL.Actif;
+            newVehiculeDTo.Numero = vehiculeDAL.Numero;
+            newVehiculeDTo.DejaUtilise = depot_historique_intervention_vehicule.GetAllByVehiculeId(vehiculeDAL.Id) != null; //TODO: SC - check this
+            if (depot_historique_intervention_vehicule.GetAllByVehiculeId(vehiculeDAL.Id) == null) //TODO: SC - check this, LIst can Be NULL??
+                newVehiculeDTo.DejaUtilise = false;
+            
+            vehiculesDTO.Add(newVehiculeDTo);
         }
 
         if (vehiculesDTO.Count < 0 || vehiculesDTO == null)
@@ -106,8 +109,13 @@ public class Vehicule_SRV : BICE_SRV<Vehicule_DTO>
             Actif = vehiculeDal.Actif,
             Numero = vehiculeDal.Numero
         };
-        //TODO: Verifier si le vehicule a été utilisé en regardant les historiques
-        // depot_vehicule.Delete(vehiculeDal);
+        if (depot_historique_intervention_vehicule.GetAllByVehiculeId(vehiculeDal.Id) != null) 
+            depot_vehicule.Delete(vehiculeDal);
+        else
+        {
+            vehiculeDto.Actif = false;
+            Update(vehiculeDto, vehiculeDto.Numero);
+        }
         return vehiculeDto;
     }
     
