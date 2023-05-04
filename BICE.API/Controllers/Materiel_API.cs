@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BICE.API.Controllers;
 
 [ApiController]
-[Route("")]
+[Route("[controller]")]
 public class Materiel_API
 {
     
@@ -27,7 +27,7 @@ public class Materiel_API
     }
     
     [HttpGet]
-    [Route("AJeter")]
+    [Route("ToDel")]
     public List<Material_DTO> GetAllByEtatMateriel()
     {
         var materiels = service.GetAllByEtatMaterielDenomination(EtatMateriel_BLL.EtatMateriel.AJeter);

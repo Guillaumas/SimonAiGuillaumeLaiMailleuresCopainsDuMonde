@@ -5,7 +5,7 @@ namespace BICE.API.Controllers;
 
 
 [ApiController]
-[Route("intervention")]
+[Route("[controller]")]
 public class Intervention_API
 {
     private Intervention_SRV service;
