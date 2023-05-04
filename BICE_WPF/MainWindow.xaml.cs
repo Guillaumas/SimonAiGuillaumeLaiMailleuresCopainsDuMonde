@@ -7,24 +7,24 @@ using System.Windows.Data;
 using BICE.SRV;
 using System.Windows.Media.Media3D;
 using Microsoft.Win32;
-using System.IO;
-using BICE.WPF.Tools;
-using Microsoft.VisualBasic.FileIO;
+using BICE.DTO;
+using System.Linq;
 using BICE.DAL;
+using BICE.BLL;
+using BICE.WPF.Tools;
 
 namespace BICE_WPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Material_DTO>? _materials;
-        private DataGrid? _dataGrid;
-        private Button _btnLoadCsv;
-        private Button _btnConfirm;
+        private List<Material_DTO>? materiels;
 
-        public enum EHeaderColumnsPage1
+        private List<string> importedData = new List<string>();
+        private DataGrid? dataGrid;
+        private Button BtnLoadCsv;
+        private Button BtnConfirmer;
+        private Material_DTO? materialDto;
+        public enum eHeaderColumnsPage1
         {
             CodeBarre,
             Denomination,
@@ -35,7 +35,7 @@ namespace BICE_WPF
             DateControle
         }
 
-        public enum EBindingColumnsPage1
+        public enum eBindingColumnsPage1
         {
             Code_barre,
             Denomination,
@@ -46,92 +46,90 @@ namespace BICE_WPF
             Date_prochain_controle
         }
 
-        }
 
 
-
+        public MainWindow()
+        {
+            InitializeComponent();
+            InitializePages();
         }
 
         private void InitializePages()
         {
-            var mainTabControl = new TabControl();
-            mainTabControl.Items.Add(CreateImportMaterialPage());
-            mainTabControl.Items.Add(CreatePage("Page 2"));
-            mainTabControl.Items.Add(CreatePage("Page 3"));
-            mainTabControl.Items.Add(CreatePage("Page 4"));
+            // Page 1 - Import matériel
+            var page1_grid = new Grid();
+            // Ajout des rangées
+            page1_grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
+            page1_grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            // Ajout des colones
+            page1_grid.ColumnDefinitions.Add(new ColumnDefinition());
+            page1_grid.ColumnDefinitions.Add(new ColumnDefinition());
 
-            Content = mainTabControl;
-        }
+            // Ajouter les éléments et les propriétés de la page 1
+            // ...
 
-        private TabItem CreateImportMaterialPage()
-        {
-            var pageGrid = CreatePageGrid();
+            var tabItem1 = new TabItem
+            {
+                Header = "Import Materiel",
+                Content = page1_grid
+            };
 
-            _btnLoadCsv = CreateButton("Charger CSV", BtnLoadCsv_Click);
-            pageGrid.Children.Add(_btnLoadCsv);
-            Grid.SetRow(_btnLoadCsv, 0);
-            Grid.SetColumn(_btnLoadCsv, 0);
+            // Page 2
+            var page2 = new Grid();
+            // Ajouter les éléments et les propriétés de la page 2
+            // ...
 
-            _btnConfirm = CreateButton("Confirmer", BtnConfirm_Click);
-            pageGrid.Children.Add(_btnConfirm);
-            Grid.SetRow(_btnConfirm, 0);
-            Grid.SetColumn(_btnConfirm, 1);
+            var tabItem2 = new TabItem
+            {
+                Header = "Page 2",
+                Content = page2
+            };
 
-            _dataGrid = CreateDataGrid();
-            pageGrid.Children.Add(_dataGrid);
-            Grid.SetRow(_dataGrid, 1);
-            Grid.SetColumn(_dataGrid, 0);
-            Grid.SetColumnSpan(_dataGrid, 2);
+            // Page 3
+            var page3 = new Grid();
+            // Ajouter les éléments et les propriétés de la page 3
+            // ...
 
-            return CreateTabItem("Import Materiel", pageGrid);
-        }
+            var tabItem3 = new TabItem
+            {
+                Header = "Page 3",
+                Content = page3
+            };
 
-        private TabItem CreatePage(string title)
-        {
-            var pageGrid = CreatePageGrid();
-            return CreateTabItem(title, pageGrid);
-        }
+            // Page 4
+            var page4 = new Grid();
+            // Ajouter les éléments et les propriétés de la page 4
+            // ...
 
-        private Grid CreatePageGrid()
-        {
-            var grid = new Grid();
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            var tabItem4 = new TabItem
+            {
+                Header = "Page 4",
+                Content = page4
+            };
 
-            return grid;
-        }
+            // Ajouter les pages au TabControl
+            TabControl mainTabControl = new TabControl();
+            mainTabControl.Items.Add(tabItem1);
+            mainTabControl.Items.Add(tabItem2);
+            mainTabControl.Items.Add(tabItem3);
+            mainTabControl.Items.Add(tabItem4);
 
-        private Button CreateButton(string text, RoutedEventHandler clickHandler)
-        {
-            var button = new Button();
-            button.Content = text;
-            button.Click += clickHandler;
+            // Ajouter le TabControl à la fenêtre principale
+            this.Content = mainTabControl;
 
-            return button;
-        }
 
-        private DataGrid CreateDataGrid()
-        {
-            var dataGrid = new DataGrid();
+            // Création du DataGrid
+            dataGrid = new DataGrid();
             dataGrid.AutoGenerateColumns = false;
             dataGrid.IsReadOnly = true;
             dataGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
             dataGrid.VerticalAlignment = VerticalAlignment.Stretch;
 
-            return dataGrid;
-        }
 
-        private TabItem CreateTabItem(string title, UIElement content)
-        {
-            return new TabItem
-            {
-                Header = title,
-                Content = content
-            };
-        }
 
+
+            // Gestion des événements de clic sur les boutons
+            BtnLoadCsv = new Button();
             BtnLoadCsv.Content = "Charger CSV";
             BtnLoadCsv.Click += BtnLoadCsv_Click;
             page1_grid.Children.Add(BtnLoadCsv);
@@ -142,10 +140,34 @@ namespace BICE_WPF
             BtnConfirmer.Content = "Confirmer";
             BtnConfirmer.Click += BtnConfirmer_Click;
             page1_grid.Children.Add(BtnConfirmer);
+            Grid.SetRow(BtnConfirmer, 0);
+            Grid.SetColumn(BtnConfirmer, 1);
+
+            // Ajout du DataGrid au Grid principal
+            page1_grid.Children.Add(dataGrid);
+            Grid.SetRow(dataGrid, 1);
+            Grid.SetColumn(dataGrid, 0);
+            Grid.SetColumnSpan(dataGrid, 2);
+
+
+
+        }
+
+        private void BtnLoadCsv_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Fichiers CSV (*.csv)|*.csv|Tous les fichiers (*.*)|*.*",
+                Multiselect = false
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
                 try
                 {
-                    _materials = CSVParser.ParseCsvFile(openFileDialog.FileName);
-                    UpdateDataGrid(_materials);
+                    materiels = CSVParser.ParseCsvFile(openFileDialog.FileName);
+
+                    UpdateDataGrid(materiels);
                 }
                 catch (Exception ex)
                 {
@@ -157,35 +179,12 @@ namespace BICE_WPF
 
         private void UpdateDataGrid(List<Material_DTO> data)
         {
-            _dataGrid.ItemsSource = null;
-            _dataGrid.AutoGenerateColumns = false;
+            dataGrid.ItemsSource = null;
+            dataGrid.AutoGenerateColumns = false;
 
-            _dataGrid.Columns.Clear();
+            // Création des colonnes en fonction des propriétés à afficher
 
-            for (int i = 0; i < Enum.GetValues(typeof(EHeaderColumnsPage1)).Length; i++)
-            {
-                var headerValue = ((EHeaderColumnsPage1)i).ToString();
-                var bindingValue = ((EBindingColumnsPage1)i).ToString();
-
-                DataGridTextColumn column = new DataGridTextColumn
-                {
-                    Header = headerValue,
-                    Binding = new Binding(bindingValue),
-                    Width = new DataGridLength(1, DataGridLengthUnitType.Star)
-                };
-
-                _dataGrid.Columns.Add(column);
-            }
-
-            _dataGrid.ItemsSource = data;
-        }
-        private void UpdateDataGrid(List<Material_DTO> data)
-        private void BtnConfirm_Click(object sender, RoutedEventArgs e)
-        {
-            var materialService = new Materiel_SRV();
-            materialService.UpdateByStock(_materials);
-
-
+            dataGrid.Columns.Clear(); // Efface toutes les colonnes existantes
 
             // Création des colonnes pour le DataGrid
             for (int i = 0; i < Enum.GetValues(typeof(eHeaderColumnsPage1)).Length; i++)
@@ -208,60 +207,16 @@ namespace BICE_WPF
 
             dataGrid.ItemsSource = data; // Ajout des données au DataGrid
         }
-        {
 
-
-        private void BtnConfirmer_Click(object sender, RoutedEventArgs e)
-        {
-            var materiel_SRV = new Materiel_SRV();
-            materiel_SRV.UpdateByStock(materiels);
-
-            for (int i = 0; i < Enum.GetValues(typeof(EHeaderColumnsPage1)).Length; i++)
-            
-                var headerValue = ((EHeaderColumnsPage1)i).ToString();
-                var bindingValue = ((EBindingColumnsPage1)i).ToString();
-
-                DataGridTextColumn column = new DataGridTextColumn
-                {
-                    Header = headerValue,
-                    Binding = new Binding(bindingValue),
-                    Width = new DataGridLength(1, DataGridLengthUnitType.Star)
-                };
-
-                _dataGrid.Columns.Add(column);
-            }
-
-            _dataGrid.ItemsSource = data;
-        }
-            _dataGrid.Columns.Clear();
 
 
         private void BtnConfirmer_Click(object sender, RoutedEventArgs e)
         {
             var materiel_SRV = new Materiel_SRV();
             materiel_SRV.UpdateByStock(materiels);
-
-
-            
-                DataGridTextColumn column = new DataGridTextColumn
-                {
-                    Header = headerValue,
-                    Binding = new Binding(bindingValue),
-                    Width = new DataGridLength(1, DataGridLengthUnitType.Star)
-                };
-
-                _dataGrid.Columns.Add(column);
-            }
-
-            _dataGrid.ItemsSource = data;
-        }
-
-        private void BtnConfirm_Click(object sender, RoutedEventArgs e)
-        {
-            var materialService = new Materiel_SRV();
-            materialService.UpdateByStock(_materials);
 
             MessageBox.Show("Les données ont été importées avec succès.");
+
         }
     }
 }
