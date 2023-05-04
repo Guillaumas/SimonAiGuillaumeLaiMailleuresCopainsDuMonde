@@ -68,7 +68,8 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
                 materielDal.Id_categorie = categorieSRV.GetByDenomination(dto.Categorie) == null
                     ? categorieSRV.Add(new Categorie_DTO() { Denomination = dto.Categorie }).Id
                     : categorieSRV.GetByDenomination(dto.Categorie).Id;
-                materielDal.Id_etat_materiel = etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Stock).Id;
+                materielDal.Id_etat_materiel =
+                    etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Stock).Id;
 
                 if (depot_materiel.GetByCodeBarre(dto.Code_barre) != null)
                     depot_materiel.UpdateByCodeBarre(materielDal);
@@ -76,7 +77,28 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
                     depot_materiel.Insert(materielDal);
             }
         }
+
         return dtos;
+    }
+
+    public List<Material_DTO> UpdateByVehicule(string numeroVehicule, List<Material_DTO> materialDtos)
+    {
+        var vehiculeDal = depot_vehicule.GetByNumeros(numeroVehicule);
+        if (materialDtos != null || materialDtos.Count == 0)
+        {
+            foreach (var materialDto in materialDtos)
+            {
+                var materielDal = CreateDalByDto(materialDto);
+                materielDal.Id_vehicule = vehiculeDal.Id;
+                materialDto.Id_vehicule = vehiculeDal.Id;
+                materielDal.Id_categorie = depot_categorie.GetByDenomination(materialDto.Categorie).Id;
+                materielDal.Id_etat_materiel =
+                    etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Vehicule).Id;
+                depot_materiel.UpdateByCodeBarre(materielDal);
+            }
+        }
+
+        return materialDtos;
     }
 
     public List<Material_DTO> UpdateOnInterventionReturnUsedMaterials(List<Material_DTO> dtos)
@@ -136,11 +158,25 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
 
         return dtos;
     }
+    
+    public List<Material_DTO> UpdateOnInterventionReturnLostMaterialsByNumeroVehicule(string numeroVehicule)
+    {
+        List<Material_DTO> materielsDTO = new List<Material_DTO>();
+        var materielDals = depot_materiel.GetAllByIdVehicule(depot_vehicule.GetByNumeros(numeroVehicule).Id);
+        foreach (var dal in materielDals)
+        {
+            dal.Id_etat_materiel = etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Perdu).Id;
+            dal.Id_vehicule = null;
+            depot_materiel.Update(dal);
+            materielsDTO.Add(CreateDtoByDal(dal));
+        }
+
+        return materielsDTO;
+    }
 
 
-    
-    
-    
+    //TODO fare une fonction de verif (verifi que la liste n'est pas vide, retourn null sinon
+
     //TODO: Bonne pratique??
     public Material_DTO CreateDtoByDal(Materiel_DAL materielDAL)
     {
@@ -158,6 +194,7 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         dto.String_Etat_materiel = depot_EtatMateriel.GetById(materielDAL.Id_etat_materiel).Denomination.ToString();
         dto.Id_Categorie = materielDAL.Id_categorie;
         dto.Id_Etat_materiel = materielDAL.Id_etat_materiel;
+        dto.Id_vehicule = materielDAL.Id_vehicule;
         return dto;
     }
 
@@ -171,12 +208,12 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
             dto.Date_expiration,
             dto.Date_prochain_controle,
             dto.Id_Categorie,
-            dto.Id_Etat_materiel);
+            dto.Id_Etat_materiel,
+            dto.Id_vehicule);
         return materielDAL;
     }
-    
-    
-    
+
+
     //TODO: Del this shit
     // public List<Material_DTO> AddByList(List<Material_DTO> dtos)
     // {
@@ -229,6 +266,4 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         throw new NotImplementedException();
         //TODO: Del this shit
     }
-
 }
-

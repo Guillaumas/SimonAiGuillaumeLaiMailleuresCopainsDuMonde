@@ -4,29 +4,40 @@ namespace BICE.DAL;
 
 public class Vehicule_depot_DAL : Depot_DAL<Vehicule_DAL>
 {
-    public override Vehicule_DAL Update(Vehicule_DAL v)
-    {
-        throw new NotImplementedException();
-    }
 
-    public override Vehicule_DAL GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
 
     public Vehicule_DAL GetByDenomination(string d)
     {
-        InitialiseConnexionAndCommand();
-        Command.CommandText = @"SELECT * from [dbo].[Vehicule] where denomination=@denomination";
-        Command.Parameters.Add(new SqlParameter("@denomination", d));
+         InitialiseConnexionAndCommand();
+         Command.CommandText = @"SELECT * from [dbo].[Vehicule] where denomination=@denomination";
+         Command.Parameters.Add(new SqlParameter("@denomination", d));
+         var reader = Command.ExecuteReader();
+         Vehicule_DAL vDAL = null;
+         if (reader.Read())
+         {
+             vDAL = new Vehicule_DAL(
+                 (int)reader["id"],
+                 (string)reader["numero"],
+                 (string)reader["denomination"],
+                 (string)reader["immatriculation"],
+                 (bool)reader["actif"]);
+         }
+         CloseAndDisposeConnexion();
+         return vDAL;
+    }
 
+    public Vehicule_DAL GetByNumeros(string n)
+    {
+        InitialiseConnexionAndCommand();
+        Command.CommandText = @"SELECT * from [dbo].[Vehicule] where numero=@numero";
+        Command.Parameters.Add(new SqlParameter("@numero", n));
         var reader = Command.ExecuteReader();
         Vehicule_DAL vDAL = null;
-
         if (reader.Read())
         {
             vDAL = new Vehicule_DAL(
                 (int)reader["id"],
+                (string)reader["numero"],
                 (string)reader["denomination"],
                 (string)reader["immatriculation"],
                 (bool)reader["actif"]);
@@ -65,6 +76,7 @@ public class Vehicule_depot_DAL : Depot_DAL<Vehicule_DAL>
         {
             vehicules.Add( new Vehicule_DAL(
                 (int)reader["id"],
+                (string)reader["numero"],
                 (string)reader["denomination"],
                 (string)reader["immatriculation"],
                 (bool)reader["actif"]
@@ -81,7 +93,22 @@ public class Vehicule_depot_DAL : Depot_DAL<Vehicule_DAL>
         return vehicules;
     }
 
+    
+    
+    
+    
+    //TODO: SC - del this shit
     public override void Delete(Vehicule_DAL v)
+    {
+        throw new NotImplementedException();
+    }
+    
+    public override Vehicule_DAL Update(Vehicule_DAL v)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Vehicule_DAL GetById(int id)
     {
         throw new NotImplementedException();
     }

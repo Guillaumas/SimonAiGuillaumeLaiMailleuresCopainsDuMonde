@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "Rkwl1Q4/Y/vTgyopPnlBHEwAp88qDCt5H5U+wVLyOAnYX4BNG6LmnfDxK3M66QGtVq39M8a1El6uAh1lrjmnjQ==",
+=======
+  "dgSpecHash": "tT+07/zFRO6ntciQnFuuASoKKEbjwn+LDIEoCQapK7y33R3FgLq4UZnwPAE2OCPGM8YRz/zD4EslLRx3eofyIQ==",
+>>>>>>> master
   "success": true,
   "projectFilePath": "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DTO\\BICE.DTO.csproj",
   "expectedPackageFiles": [

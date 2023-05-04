@@ -18,7 +18,11 @@ namespace BICE_WPF
     public partial class MainWindow : Window
     {
         private List<Material_DTO>? materiels;
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> master
         private List<string> importedData = new List<string>();
         private DataGrid? dataGrid;
         private Button BtnLoadCsv;
@@ -116,7 +120,11 @@ namespace BICE_WPF
 
             // Ajouter le TabControl à la fenêtre principale
             this.Content = mainTabControl;
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> master
 
             // Création du DataGrid
             dataGrid = new DataGrid();
@@ -125,7 +133,11 @@ namespace BICE_WPF
             dataGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
             dataGrid.VerticalAlignment = VerticalAlignment.Stretch;
 
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> master
 
 
             // Gestion des événements de clic sur les boutons
@@ -149,7 +161,11 @@ namespace BICE_WPF
             Grid.SetColumn(dataGrid, 0);
             Grid.SetColumnSpan(dataGrid, 2);
 
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> master
 
         }
 
@@ -166,7 +182,11 @@ namespace BICE_WPF
                 try
                 {
                     materiels = CSVParser.ParseCsvFile(openFileDialog.FileName);
+<<<<<<< HEAD
                     
+=======
+
+>>>>>>> master
                     UpdateDataGrid(materiels);
                 }
                 catch (Exception ex)
@@ -216,7 +236,11 @@ namespace BICE_WPF
             materiel_SRV.UpdateByStock(materiels);
 
             MessageBox.Show("Les données ont été importées avec succès.");
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> master
         }
     }
 }
