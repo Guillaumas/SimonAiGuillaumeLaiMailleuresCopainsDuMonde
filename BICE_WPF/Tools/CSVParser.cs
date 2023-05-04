@@ -24,13 +24,15 @@ namespace BICE.WPF.Tools
                     
                     string[] fields = parser.ReadFields(); // Lit la ligne
 
+                    int.TryParse(fields[4], out int nombreUtilisationsLimite);
+
                     Material_DTO materiel = new Material_DTO
                     {
                         Code_barre = fields[0],
                         Denomination = fields[1],
                         Categorie = fields[2],
                         Nombre_utilisations = int.Parse(fields[3]),
-                        Nombre_utilisations_limite = string.IsNullOrEmpty(fields[4]) ? (int?)null : int.Parse(fields[4]),
+                        Nombre_utilisations_limite = nombreUtilisationsLimite == 0 ? (int?)null : nombreUtilisationsLimite,
                         Date_expiration = string.IsNullOrEmpty(fields[5]) ? (DateTime?)null : DateTime.Parse(fields[5]),
                         Date_prochain_controle = string.IsNullOrEmpty(fields[6]) ? (DateTime?)null : DateTime.Parse(fields[6])
                     }; // Crée un objet Materiel_DTO à partir des données de la ligne
