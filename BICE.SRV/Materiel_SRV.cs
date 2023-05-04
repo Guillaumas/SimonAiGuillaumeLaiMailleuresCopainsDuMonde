@@ -16,7 +16,6 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
     protected Categorie_SRV categorieSRV;
     protected EtatMateriel_SRV etatMaterielSRV;
 
-
     public Materiel_SRV()
     {
         //TODO : trop de chose dans le constructeur??

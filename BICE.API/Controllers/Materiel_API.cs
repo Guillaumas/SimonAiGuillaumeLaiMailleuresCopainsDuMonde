@@ -43,6 +43,7 @@ public class Materiel_API
     [Route("updateVehicule/{numeroVehicule}")]
     public List<Material_DTO> UpdateByVehicule(List<Material_DTO> materiels, string numeroVehicule)
     {
+        //TODO: verifier si le vehicule existe
         return service.UpdateByVehicule(numeroVehicule, materiels);
     }
     
