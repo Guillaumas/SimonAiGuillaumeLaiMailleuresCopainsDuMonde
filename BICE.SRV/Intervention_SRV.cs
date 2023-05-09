@@ -9,12 +9,12 @@ public class Intervention_SRV : IIntervention_SRV
     protected Intervention_depot_DAL depot_intervention;
     protected Vehicule_depot_DAL depot_vehicule;
     protected Materiel_depot_DAL depot_materiel;
-    protected HistoriqueInterventionVehiculeDepot_DAL depot_historiqueInterventionVehicule;
+    protected HistoriqueInterventionVehicule_depot_DAL depot_historiqueInterventionVehicule;
     protected HistoriqueMateriel_depot_DAL depot_historiqueMateriel;
     public Intervention_SRV()
     {
         depot_intervention = new Intervention_depot_DAL();
-        depot_historiqueInterventionVehicule = new HistoriqueInterventionVehiculeDepot_DAL();
+        depot_historiqueInterventionVehicule = new HistoriqueInterventionVehicule_depot_DAL();
         depot_vehicule = new Vehicule_depot_DAL();
         depot_materiel = new Materiel_depot_DAL();
         depot_historiqueMateriel = new HistoriqueMateriel_depot_DAL();

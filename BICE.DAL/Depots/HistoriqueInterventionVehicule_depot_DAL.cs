@@ -1,12 +1,12 @@
 namespace BICE.DAL;
 using System.Data.SqlClient;
 
-public class HistoriqueInterventionVehiculeDepot_DAL : Depot_DAL
+public class HistoriqueInterventionVehicule_depot_DAL : Depot_DAL
 {
     public List<HistoriqueInterventionVehicule_DAL> GetAllByVehiculeId(int vehiculeId)
     {
         InitialiseConnexionAndCommand();
-        Command.CommandText = @"select * from [dbo].[HistoriqueInterventionVehicule] where id_vehicule = @id_vehicule";
+        Command.CommandText = @"select * from [dbo].[historique_intervention_vehicule] where id_vehicule = @id_vehicule";
         Command.Parameters.Add(new SqlParameter("@id_vehicule", vehiculeId));
         var reader = Command.ExecuteReader();
         var historiqueInterventionVehiculeDALs = new List<HistoriqueInterventionVehicule_DAL>();

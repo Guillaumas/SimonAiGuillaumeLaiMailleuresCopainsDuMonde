@@ -9,11 +9,11 @@ namespace BICE.SRV;
 public class Vehicule_SRV : IVehicule_SRV
 {
     protected Vehicule_depot_DAL depot_vehicule;
-    protected HistoriqueInterventionVehiculeDepot_DAL depot_historique_intervention_vehicule;
+    protected HistoriqueInterventionVehicule_depot_DAL depot_historique_intervention_vehicule;
     public Vehicule_SRV()
     {
         this.depot_vehicule = new Vehicule_depot_DAL();
-        this.depot_historique_intervention_vehicule = new HistoriqueInterventionVehiculeDepot_DAL();
+        this.depot_historique_intervention_vehicule = new HistoriqueInterventionVehicule_depot_DAL();
     }
 
     public List<Vehicule_DTO> GetAll()
