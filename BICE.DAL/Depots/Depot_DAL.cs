@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace BICE.DAL;
 
-public abstract class Depot_DAL<Type_DAL> : IDepot_DAL<Type_DAL>
+public abstract class Depot_DAL
 {
     public string ConString { get; set; }
     protected SqlConnection Connexion { get; set; }
@@ -30,8 +30,8 @@ public abstract class Depot_DAL<Type_DAL> : IDepot_DAL<Type_DAL>
             // ConString = connectionStringSection?.Value ?? throw new Exception($"Connection string not found : {connectionStringSection.Value}");
             
             // TODO : gerer connection string dans appsettings.json 
-            //ConString = "Data Source=localhost;Initial Catalog=BICE;Persist Security Info=True;User ID=BICE;Password=Guigsetsimsimles+bgdu44";
-            ConString = "Data Source=localhost;Initial Catalog=BICE;Persist Security Info=True;User ID=Bice;Password=Bice";
+            ConString = "Data Source=localhost;Initial Catalog=BICE;Persist Security Info=True;User ID=BICE;Password=Guigsetsimsimles+bgdu44";
+            // ConString = "Data Source=localhost;Initial Catalog=BICE;Persist Security Info=True;User ID=Bice;Password=Bice";
         }
         catch (FileNotFoundException e)
         {
@@ -62,12 +62,4 @@ public abstract class Depot_DAL<Type_DAL> : IDepot_DAL<Type_DAL>
             Command.Dispose();
         }       
     }
-
-    
-    
-    public abstract IEnumerable<Type_DAL> GetAll();
-    public abstract void Delete(Type_DAL p);
-    public abstract Type_DAL GetById(int id);
-    public abstract Type_DAL Insert(Type_DAL p);
-    public abstract Type_DAL Update(Type_DAL p);
 }

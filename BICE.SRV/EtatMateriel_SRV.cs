@@ -1,10 +1,11 @@
 using BICE.DAL;
 using BICE.DTO;
 using BICE.BLL;
+using BICE.SRV.Interfaces_SRV;
 
 namespace BICE.SRV;
 //TODO: create hparent class wit Categorie_SRV and EtatMaterial_SRV
-public class EtatMateriel_SRV : BICE_SRV<EtatMaterial_DTO>
+public class EtatMateriel_SRV : IEtatMateriel_SRV
 {
     protected EtatMateriel_depot_DAL depot_etatMateriel;
     
@@ -29,39 +30,38 @@ public class EtatMateriel_SRV : BICE_SRV<EtatMaterial_DTO>
         };
     }
     
-    public EtatMaterial_DTO GetById(int id)
-    {
-        var categorieDAL = depot_etatMateriel.GetById(id);
-        return new EtatMaterial_DTO()
-        {
-            Id = categorieDAL.Id,
-            Denomination = categorieDAL.Denomination
-        };
-    }
-
-    public List<EtatMaterial_DTO> GetAll()
-    {
-        throw new NotImplementedException();
-    }
-
-    public EtatMaterial_DTO Add(EtatMaterial_DTO dto)
-    {
-        var etaMaterielDAL = new EtatMateriel_DAL(
-            dto.Denomination);
-        depot_etatMateriel.Insert(etaMaterielDAL);
-        
-        dto.Id = etaMaterielDAL.Id;
-        dto.Denomination = etaMaterielDAL.Denomination;
-        return dto;
-    }
-
-    public EtatMaterial_DTO Update(EtatMaterial_DTO dto)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Delete(EtatMaterial_DTO dto)
-    {
-        throw new NotImplementedException();
-    }
+    //TODO: Delete this shit
+    // public EtatMaterial_DTO GetById(int id)
+    // {
+    //     var categorieDAL = depot_etatMateriel.GetById(id);
+    //     return new EtatMaterial_DTO()
+    //     {
+    //         Id = categorieDAL.Id,
+    //         Denomination = categorieDAL.Denomination
+    //     };
+    // }
+    //
+    // public List<EtatMaterial_DTO> GetAll()
+    // {
+    //     throw new NotImplementedException();
+    // }
+    // public EtatMaterial_DTO Add(EtatMaterial_DTO dto)
+    // {
+    //     var etaMaterielDAL = new EtatMateriel_DAL(
+    //         dto.Denomination);
+    //     depot_etatMateriel.Insert(etaMaterielDAL);
+    //     
+    //     dto.Id = etaMaterielDAL.Id;
+    //     dto.Denomination = etaMaterielDAL.Denomination;
+    //     return dto;
+    // }
+    // public EtatMaterial_DTO Update(EtatMaterial_DTO dto)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public void Delete(EtatMaterial_DTO dto)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }
