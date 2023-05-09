@@ -399,8 +399,8 @@ FodyWeavers.xsd
 /.idea/
 /*.sln.iml
 /BICE.sln
-/BICE.DAL/obj/
-/BICE.BLL/obj/
-/BICE.SRV/obj/
-/BICE.API/obj/
-/BICE.DTO/obj/
+BICE.DAL/obj/
+BICE.BLL/obj/
+BICE.SRV/obj/
+BICE.API/obj/
+BICE.DTO/obj/

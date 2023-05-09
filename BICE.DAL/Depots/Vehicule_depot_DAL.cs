@@ -29,7 +29,7 @@ public class Vehicule_depot_DAL : Depot_DAL
     public Vehicule_DAL GetByNumeros(string n)
     {
         InitialiseConnexionAndCommand();
-        Command.CommandText = @"SELECT * from [dbo].[Vehicule] where numero=@numero";
+        Command.CommandText = @"SELECT * from [dbo].[vehicule] where numero=@numero";
         Command.Parameters.Add(new SqlParameter("@numero", n));
         var reader = Command.ExecuteReader();
         Vehicule_DAL vDAL = null;

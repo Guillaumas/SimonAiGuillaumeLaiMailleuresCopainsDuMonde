@@ -1077,34 +1077,32 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Blue\\.nuget\\packages\\": {}
+    "/home/simsim/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DAL\\BICE.DAL.csproj",
+      "projectUniqueName": "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DAL/BICE.DAL.csproj",
       "projectName": "BICE.DAL",
-      "projectPath": "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DAL\\BICE.DAL.csproj",
-      "packagesPath": "C:\\Users\\Blue\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DAL\\obj\\",
+      "projectPath": "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DAL/BICE.DAL.csproj",
+      "packagesPath": "/home/simsim/.nuget/packages/",
+      "outputPath": "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.DAL/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Blue\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/simsim/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.BLL\\BICE.BLL.csproj": {
-              "projectPath": "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.BLL\\BICE.BLL.csproj"
+            "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.BLL/BICE.BLL.csproj": {
+              "projectPath": "/media/simsim/cd8a8f02-df25-4ce3-9527-0155114d32f1/Simon/Cours/EPSI/PSN2/Conception solution securise/C#/BICE/BICE.BLL/BICE.BLL.csproj"
             }
           }
         }
@@ -1144,16 +1142,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.408/RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problème de lecture du fichier cache C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DAL\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }
