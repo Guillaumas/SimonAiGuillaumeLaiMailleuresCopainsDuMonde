@@ -1,18 +1,25 @@
 ﻿using BICE.DTO;
 using BICE.SRV;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using Newtonsoft.Json;
+using BICE.WPF.Tools;
 
 namespace BICE.WPF.Pages
 {
     public partial class Vehicule : UserControl
     {
         private TextBox ImmatriculationTextBox;
-        private TextBox NumberTextBox;
+        private TextBox NumeroTextBox;
 
         public Vehicule()
         {
@@ -56,7 +63,6 @@ namespace BICE.WPF.Pages
             Grid buttonsGrid = new Grid();
             buttonsGrid.RowDefinitions.Add(new RowDefinition());
             buttonsGrid.RowDefinitions.Add(new RowDefinition());
-            buttonsGrid.RowDefinitions.Add(new RowDefinition());
             buttonsGrid.ColumnDefinitions.Add(new ColumnDefinition());
             buttonsGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
@@ -82,17 +88,6 @@ namespace BICE.WPF.Pages
             buttonsGrid.Children.Add(btnModifierVehicule);
             Grid.SetRow(btnModifierVehicule, 1);
             Grid.SetColumn(btnModifierVehicule, 0);
-
-            Button btnSupprimerVehicule = new Button
-            {
-                Content = "Supprimer véhicule",
-                Margin = new Thickness(10),
-                Height = 50
-            };
-            btnSupprimerVehicule.Click += BtnSupprimerVehicule_Click;
-            buttonsGrid.Children.Add(btnSupprimerVehicule);
-            Grid.SetRow(btnSupprimerVehicule, 2);
-            Grid.SetColumn(btnSupprimerVehicule, 0);
 
             // Création des boutons Gestion du matériel des véhicules
             Button btnAjouterMateriel = new Button
@@ -126,19 +121,17 @@ namespace BICE.WPF.Pages
             this.Content = VehiculeGrid;
         }
 
+        #region FonctionsBoutons
+
         private void BtnAjouterVehicule_Click(object sender, RoutedEventArgs e)
         {
             ShowAddVehicleForm();
         }
 
-        private void BtnModifierVehicule_Click(object sender, RoutedEventArgs e)
+        private async void BtnModifierVehicule_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void BtnSupprimerVehicule_Click(object sender, RoutedEventArgs e)
-        {
-
+            ClearAll();
+            await CreateVehiculesDropdown();
         }
 
         private void BtnAjouterMateriel_Click(object sender, RoutedEventArgs e)
@@ -150,6 +143,8 @@ namespace BICE.WPF.Pages
         {
 
         }
+
+        #endregion
 
         #region AddVehiculeBouton
 
@@ -169,9 +164,9 @@ namespace BICE.WPF.Pages
             FormAddVehicule.Children.Add(ImmatriculationTextBox);
 
             FormAddVehicule.Children.Add(new TextBlock { Text = "Numéro", FontWeight = FontWeights.Bold, Margin = new Thickness(0, 10, 0, 0) });
-            NumberTextBox = new TextBox { Name = "NumberTextBox" };
-            NumberTextBox.PreviewTextInput += NumeroTextBoxAddVehicule_PreviewTextInput;
-            FormAddVehicule.Children.Add(NumberTextBox);
+            NumeroTextBox = new TextBox { Name = "NumeroTextBox" };
+            NumeroTextBox.PreviewTextInput += NumeroTextBoxAddVehicule_PreviewTextInput;
+            FormAddVehicule.Children.Add(NumeroTextBox);
 
             Button submitButton = new Button
             {
@@ -205,21 +200,19 @@ namespace BICE.WPF.Pages
 
         private void SubmitButtonAddVehicule_Click(object sender, RoutedEventArgs e)
         {
-            TextBox emptyField = AreFieldsEmpty();
+            bool AllFieldsFilled = AreFieldsEmpty();
 
-            if (emptyField != null)
+            if (AllFieldsFilled == false)
             {
                 MessageBox.Show("Veuillez remplir tous les champs correctement.", "Erreur", MessageBoxButton.OK,
                     MessageBoxImage.Error);
-                emptyField.Focus();
-                return;
             }
             else
             {
                 ImmatriculationTextBox = (TextBox)VehiculeGrid.FindName("ImmatriculationTextBox");
                 string Immatriculation = ImmatriculationTextBox.Text.ToUpper();
-                NumberTextBox = (TextBox)VehiculeGrid.FindName("NumberTextBox");
-                string numero = NumberTextBox.Text;
+                NumeroTextBox = (TextBox)VehiculeGrid.FindName("NumeroTextBox");
+                string numero = NumeroTextBox.Text;
 
                 Vehicule_DTO newVehicle = new Vehicule_DTO
                 {
@@ -277,6 +270,7 @@ namespace BICE.WPF.Pages
                 e.Handled = true;
             }
         }
+
         private static bool IsInputValid_Immatriculation(string text)
         {
             Regex regex = new Regex("^[A-Z0-9-]+$"); // regex pour autoriser uniquement les lettres majuscules, chiffres et le caractère "-"
@@ -285,27 +279,237 @@ namespace BICE.WPF.Pages
 
         #endregion
 
-        private static bool IsNumber(string input)
+
+        private async Task CreateVehiculesDropdown()
         {
-            Regex regex = new Regex("[^0-9]+"); // regex pour autoriser uniquement les chiffres
-            return regex.IsMatch(input);
+            ComboBox vehiculesComboBox = new ComboBox();
+            Grid.SetColumn(vehiculesComboBox, 0);
+            Grid.SetRow(vehiculesComboBox, 0);
+            VehiculeGrid.Children.Add(vehiculesComboBox);
+
+            // Charger la liste des véhicules
+            var vehicules = await GetVehicules();
+            vehiculesComboBox.ItemsSource = vehicules;
+            vehiculesComboBox.DisplayMemberPath = "Immatriculation";
+            vehiculesComboBox.SelectionChanged += VehiculesComboBox_SelectionChanged;
         }
 
-        private TextBox AreFieldsEmpty()
+        private async Task<List<Vehicule_DTO>> GetVehicules()
         {
-            bool isImmatriculationEmpty = string.IsNullOrWhiteSpace(ImmatriculationTextBox.Text) || ImmatriculationTextBox.Text.Length > 9 || ImmatriculationTextBox.Text.Length < 1;
-            bool isNumberEmpty = string.IsNullOrWhiteSpace(NumberTextBox.Text) || NumberTextBox.Text.Length < 1;
-
-            if (isImmatriculationEmpty)
+            using (HttpClient client = new HttpClient())
             {
-                return ImmatriculationTextBox;
+                client.BaseAddress = new Uri("http://localhost:5000");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync("vehicule_API/");
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    List<Vehicule_DTO> vehicules = Tools.DTO_and_JSON_translator.VehiculeDtoFromJson(json);
+                    return vehicules;
+                }
+                else
+                {
+                    throw new Exception($"Erreur lors de l'appel à l'API : {response.ReasonPhrase}");
+                }
             }
-            else if (isNumberEmpty)
+        }
+
+        private void VehiculesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            Vehicule_DTO selectedVehicule = (Vehicule_DTO)comboBox.SelectedItem;
+
+            if (selectedVehicule != null)
             {
-                return NumberTextBox;
+                // Mettre à jour les champs du formulaire avec les informations du véhicule sélectionné
+                // Exemple :
+                NumeroTextBox.Text = selectedVehicule.Numero;
+                ImmatriculationTextBox.Text = selectedVehicule.Immatriculation;
+                AddFormFields();
+            }
+        }
+
+        private void ClearAll()
+        {
+            VehiculeGrid.Children.Clear();
+            VehiculeGrid.RowDefinitions.Clear();
+            VehiculeGrid.ColumnDefinitions.Clear();
+            CreateGridStructure();
+        }
+
+        private void CreateGridStructure()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                VehiculeGrid.RowDefinitions.Add(new RowDefinition());
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                VehiculeGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+        }
+
+        private void AddFormFields()
+        {
+            // Ajouter le champ "Numéro"
+            Label numeroLabel = new Label { Content = "Numéro" };
+            Grid.SetColumn(numeroLabel, 0);
+            Grid.SetRow(numeroLabel, 1);
+            VehiculeGrid.Children.Add(numeroLabel);
+
+            TextBox numeroTextBox = new TextBox();
+            Grid.SetColumn(numeroTextBox, 1);
+            Grid.SetRow(numeroTextBox, 1);
+            VehiculeGrid.Children.Add(numeroTextBox);
+
+            // Ajouter le champ "Immatriculation"
+            Label immatriculationLabel = new Label { Content = "Immatriculation" };
+            Grid.SetColumn(immatriculationLabel, 0);
+            Grid.SetRow(immatriculationLabel, 2);
+            VehiculeGrid.Children.Add(immatriculationLabel);
+
+            TextBox immatriculationTextBox = new TextBox();
+            Grid.SetColumn(immatriculationTextBox, 1);
+            Grid.SetRow(immatriculationTextBox, 2);
+            VehiculeGrid.Children.Add(immatriculationTextBox);
+
+            // Ajouter le bouton "Confirmer"
+            Button btnConfirmer = new Button { Content = "Confirmer" };
+            Grid.SetColumn(btnConfirmer, 0);
+            Grid.SetRow(btnConfirmer, 3);
+            btnConfirmer.Click += BtnConfirmer_Click;
+            VehiculeGrid.Children.Add(btnConfirmer);
+
+            // Ajouter le bouton "Supprimer"
+            Button btnSupprimer = new Button { Content = "Supprimer" };
+            Grid.SetColumn(btnSupprimer, 1);
+            Grid.SetRow(btnSupprimer, 3);
+            btnSupprimer.Click += BtnSupprimer_Click;
+            VehiculeGrid.Children.Add(btnSupprimer);
+        }
+
+        private async void BtnConfirmer_Click(object sender, RoutedEventArgs e)
+        {
+            // Valider les informations du formulaire
+            if (IsValidForm())
+            {
+                // Envoyer les modifications à l'API
+                Vehicule_DTO vehiculeToUpdate = new Vehicule_DTO { Numero = NumeroTextBox.Text, Immatriculation = ImmatriculationTextBox.Text };
+                string json = vehiculeToUpdate.ToJson();
+                await UpdateVehicule(json);
+            }
+            else
+                MessageBox.Show("Veuillez vérifier les informations saisies.");
+        }
+
+        private async void BtnSupprimer_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer ce véhicule ?", "Confirmation", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // Envoyer la suppression à l'API
+                await DeleteVehicule(NumeroTextBox.Text);
+            }
+        }
+
+
+        private bool IsValidForm()
+        {
+            return !string.IsNullOrEmpty(NumeroTextBox.Text) && !string.IsNullOrEmpty(ImmatriculationTextBox.Text);
+        }
+
+        private async Task UpdateVehicule(string jsonVehiculeToUpdate)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:5000");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpContent content = new StringContent(jsonVehiculeToUpdate, Encoding.UTF8, "application/json");
+
+                Vehicule_DTO vehiculeToUpdate = JsonConvert.DeserializeObject<Vehicule_DTO>(jsonVehiculeToUpdate);
+                HttpResponseMessage response = await client.PostAsync($"vehicule_API/updateVehicule/{vehiculeToUpdate.Numero}", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception($"Erreur lors de la mise à jour du véhicule : {response.ReasonPhrase}");
+                }
+            }
+        }
+
+        private async Task DeleteVehicule(string numeroVehicule)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:5000");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.DeleteAsync($"vehicule_API/{numeroVehicule}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception($"Erreur lors de la suppression du véhicule : {response.ReasonPhrase}");
+                }
+            }
+        }
+
+        private void ImmatriculationTextBoxEditVehicule_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox immatriculationTextBox = (TextBox)sender;
+
+            if (immatriculationTextBox.Text.Length >= 9)
+            {
+                e.Handled = true;
+                return;
             }
 
-            return null;
+            if (immatriculationTextBox.Text.Length == 2 || immatriculationTextBox.Text.Length == 6)
+            {
+                immatriculationTextBox.Text += "-";
+                immatriculationTextBox.CaretIndex = immatriculationTextBox.Text.Length;
+            }
+
+            // Autoriser uniquement les lettres majuscules et les chiffres
+            e.Handled = !IsInputValid_Immatriculation(e.Text.ToUpper());
+
+            if (!e.Handled)
+            {
+                immatriculationTextBox.Text += e.Text.ToUpper();
+                immatriculationTextBox.CaretIndex = immatriculationTextBox.Text.Length;
+                e.Handled = true;
+            }
+        }
+
+        private void ImmatriculationTextBoxEditVehicule_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox immatriculationTextBox = (TextBox)sender;
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private static bool IsInputValidEditVehicule_Immatriculation(string text)
+        {
+            Regex regex = new Regex("^[A-Z0-9-]+$"); // regex pour autoriser uniquement les lettres majuscules, chiffres et le caractère "-"
+            return regex.IsMatch(text);
+        }
+
+        private bool AreFieldsEmpty()
+        {
+            TextBox registrationNumberTextBox = (TextBox)VehiculeGrid.FindName("RegistrationNumberTextBox");
+            TextBox numberTextBox = (TextBox)VehiculeGrid.FindName("numberTextBox");
+
+            return string.IsNullOrWhiteSpace(registrationNumberTextBox.Text) || string.IsNullOrWhiteSpace(numberTextBox.Text);
+        }
+
+        private static bool IsNumber(string text)
+        {
+            Regex regex = new Regex("[^0-9]+"); // Expression régulière pour autoriser uniquement les chiffres
+            return regex.IsMatch(text);
         }
     }
 }
