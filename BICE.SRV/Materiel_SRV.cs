@@ -180,7 +180,6 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
             depot_materiel.Update(dal);
             materielsDTO.Add(CreateDtoByDal(dal));
         }
-
         return materielsDTO;
     }
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BICE.API.Controllers;
 
 [ApiController]
-[Route("")]
+[Route("[controller]")]
 public class Materiel_API
 {
     
