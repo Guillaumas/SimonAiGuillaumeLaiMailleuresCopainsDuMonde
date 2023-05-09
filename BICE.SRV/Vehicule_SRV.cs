@@ -32,17 +32,12 @@ public class Vehicule_SRV : IVehicule_SRV
         }
         return vehiculesDTO;
     }
-
-    //TODO: Delete this shit
-    // public List<Vehicule_DTO> AddByList(List<Vehicule_DTO> dtos)
+    
+    //TODO: del this shit
+    // public Vehicule_DTO GetByNumeros(string numero)
     // {
-    //     var vehiculesDTO = new List<Vehicule_DTO>();
-    //     foreach (var dto in dtos)
-    //     {
-    //         vehiculesDTO.Add(Add(dto));
-    //     }
-    //
-    //     return vehiculesDTO;
+    //     var vehiculeDAL = new Vehicule_depot_DAL().GetByNumeros(numero);
+    //     return CreateDtoByDal(vehiculeDAL);
     // }
 
     public Vehicule_DTO Add(Vehicule_DTO dto)
@@ -60,23 +55,6 @@ public class Vehicule_SRV : IVehicule_SRV
         return dto;
     }
 
-    //TODO: Delete this shit
-    // public Vehicule_DTO Update(Vehicule_DTO dto)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public Vehicule_DTO GetByDenomination(string d)
-    // {
-    //     var vDAL = depot_vehicule.GetByDenomination(d);
-    //     return new Vehicule_DTO()
-    //     {
-    //         Actif = vDAL.Actif,
-    //         Denomination = vDAL.Denomination,
-    //         Id = vDAL.Id,
-    //         Immatriculation = vDAL.Immatriculation
-    //     };
-    // }
     
     public Vehicule_DTO Update(Vehicule_DTO dto, string numeroVehicule)
     {
@@ -93,32 +71,15 @@ public class Vehicule_SRV : IVehicule_SRV
         var vehiculeDal = depot_vehicule.GetByNumeros(numeroVehicule);
         var vehiculeDto = CreateDtoByDal(vehiculeDal);
 
-        if (depot_historique_intervention_vehicule.GetAllByVehiculeId(vehiculeDal.Id) != null)
-            throw new Exception("CHECK DAN SL'historique si le vehicule a ete utilisé"); 
-            //TODO: Verifier si le vehicule a été utilisé en regardant les historiques
-            // depot_vehicule.Delete(vehiculeDal);
+        if (depot_historique_intervention_vehicule.GetAllByVehiculeId(vehiculeDal.Id).Count == 0)
+            depot_vehicule.Delete(vehiculeDal);
         else
         {
             vehiculeDto.Actif = false;
             Update(vehiculeDto, vehiculeDto.Numero);
         }
-        
-        //TODO: Verifier si le vehicule a été utilisé en regardant les historiques
-        // depot_vehicule.Delete(vehiculeDal);
         return vehiculeDto;
     }
-    
-    //TODO: del this shit
-    // public void Delete(Vehicule_DTO dto)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // //TODO: SC - del this shit??
-    // public Vehicule_DTO GetById(int id)
-    // {
-    //     throw new NotImplementedException();
-    // }
     
     public Vehicule_DAL CreateDalByDto(Vehicule_DTO dto)
     {
@@ -144,6 +105,4 @@ public class Vehicule_SRV : IVehicule_SRV
     }
 }
 
-//TODO: enlever les createDtoByDal, chaque dto doit etre personnalisé en fonction de se que l'on veux envoyer
 //TODO: ajout secu: si on entre un immatriculatioin ou numero de vehicule deja exstant
-//TODO; create vehiculebydto en private

@@ -28,11 +28,6 @@ public class Materiel_SRV : IMateriel_SRV
         this.depot_vehicule = new Vehicule_depot_DAL();
     }
 
-    // public Material_DTO GetById(int id)
-    // {
-    //     return CreateDtoByDal(depot_materiel.GetById(id));
-    // }
-
     public List<Material_DTO> GetAll()
     {
         var materielsDAL = depot_materiel.GetAll();
@@ -48,6 +43,7 @@ public class Materiel_SRV : IMateriel_SRV
     public List<Material_DTO> GetAllByEtatMaterielDenomination(EtatMateriel_BLL.EtatMateriel emDenomination)
     {
         var emDal = depot_EtatMateriel.GetByDenomination(emDenomination);
+        
         var materielsDAL = depot_materiel.GetALLByEtatMateriel(emDal);
         var materielsDTO = new List<Material_DTO>();
         foreach (var materielDAL in materielsDAL)
@@ -86,8 +82,6 @@ public class Materiel_SRV : IMateriel_SRV
         var vehiculeDal = depot_vehicule.GetByNumeros(numeroVehicule);
         var materielCantBeUse = new List<Material_DTO>();
         
-        
-        //TODO: Obligé de tej les ancien materiel???
         var materielsToAddToStock = depot_materiel.GetAllByIdVehicule(vehiculeDal.Id);
         foreach (var mat in materielsToAddToStock)
         {
@@ -117,10 +111,7 @@ public class Materiel_SRV : IMateriel_SRV
                 }
             }
         }
-
-        if (materielCantBeUse.Count != 0)
-            return materielCantBeUse;
-        return materialDtos; //TODO: besoin de retourner la liste des materiel Dto?? Juste retourner une liste si il y a une erreur lors de l'insertion?? (return materielCantBeUsed)
+        return materielCantBeUse;
     }
 
     public List<Material_DTO> UpdateOnInterventionReturnUsedMaterials(List<Material_DTO> dtos)
@@ -197,8 +188,6 @@ public class Materiel_SRV : IMateriel_SRV
 
 
     //TODO fare une fonction de verif (verifi que la liste n'est pas vide, retourn null sinon
-
-    //TODO: Bonne pratique??
     public Material_DTO CreateDtoByDal(Materiel_DAL materielDAL)
     {
         // EtatMateriel_BLL etatMaterielBll = new EtatMateriel_BLL();

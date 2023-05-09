@@ -42,8 +42,6 @@ public abstract class Depot_DAL
             Console.WriteLine($"File not found ======> {e.Message}");
             throw;
         }
-        //TODO: SC - Verifier que EtatMateriel est rempli
-        CreateEtatMaterielInBdd();
     }
     
     protected void InitialiseConnexionAndCommand()
@@ -69,6 +67,7 @@ public abstract class Depot_DAL
 
     protected void CreateEtatMaterielInBdd()
     {
+        //TODO: SC - Verifier que EtatMateriel est rempli
         InitialiseConnexionAndCommand();
         Command.CommandText = @"select * from etat_materiel";
         var reader = Command.ExecuteReader();

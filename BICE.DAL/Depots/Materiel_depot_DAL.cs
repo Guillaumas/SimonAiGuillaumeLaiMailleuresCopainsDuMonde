@@ -105,8 +105,6 @@ public class Materiel_depot_DAL : Depot_DAL
         {
             throw new Exception("Reader is empty"); //TODO: create custom exception si la base de données est vide
         }
-
-
         while (reader.Read())
         {
             materiels.Add(new Materiel_DAL(
@@ -221,7 +219,6 @@ public class Materiel_depot_DAL : Depot_DAL
 
     public List<Materiel_DAL> GetALLByEtatMateriel(EtatMateriel_DAL em)
     {
-        //TODO: recupere tout les objet à jeter dans le WPF
         InitialiseConnexionAndCommand();
         Command.CommandText =
             @"SELECT [id], [code_barre], [denomination], [nombre_utilisations], [nombre_utilisations_limite], [date_expiration], [date_prochain_controle], [id_categorie], [id_etat_materiel], [id_vehicule]

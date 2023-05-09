@@ -3,16 +3,6 @@ using System.Data.SqlClient;
 
 public class HistoriqueInterventionVehiculeDepot_DAL : Depot_DAL
 {
-    public HistoriqueInterventionVehicule_DAL Update(HistoriqueInterventionVehicule_DAL hiv)
-    {
-        throw new NotImplementedException();
-    }
-
-    public HistoriqueInterventionVehicule_DAL GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
-
     public List<HistoriqueInterventionVehicule_DAL> GetAllByVehiculeId(int vehiculeId)
     {
         InitialiseConnexionAndCommand();
@@ -36,7 +26,7 @@ public class HistoriqueInterventionVehiculeDepot_DAL : Depot_DAL
     public HistoriqueInterventionVehicule_DAL Insert(HistoriqueInterventionVehicule_DAL hiv)
     {
         InitialiseConnexionAndCommand();
-        Command.CommandText = @"INSERT INTO [dbo].[HistoriqueInterventionVehicule]
+        Command.CommandText = @"INSERT INTO [dbo].[historique_intervention_vehicule]
            ([IdVehicule]
            ,[IdIntervention]
            ,[Date]) VALUES (@IdVehicule, @IdIntervention, @Date) select SCOPE_IDENTITY()";
@@ -46,15 +36,5 @@ public class HistoriqueInterventionVehiculeDepot_DAL : Depot_DAL
         hiv.Id = Convert.ToInt32((decimal)Command.ExecuteScalar());
         CloseAndDisposeConnexion();
         return hiv;
-    }
-
-    public IEnumerable<HistoriqueInterventionVehicule_DAL> GetAll()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Delete(HistoriqueInterventionVehicule_DAL hiv)
-    {
-        throw new NotImplementedException();
     }
 }

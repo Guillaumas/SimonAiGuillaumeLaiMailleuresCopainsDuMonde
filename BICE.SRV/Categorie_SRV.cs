@@ -28,22 +28,7 @@ public class Categorie_SRV : ICategorie_SRV
             Denomination = categorieDAL.Denomination
         };
     }
-    
-    //TODO: Delete this shit
-    // public Categorie_DTO GetById(int id)
-    // {
-    //     var categorieDAL = depot_categorie.GetById(id);
-    //     return new Categorie_DTO()
-    //     {
-    //         Id = categorieDAL.Id,
-    //         Denomination = categorieDAL.Denomination
-    //     };
-    // }
 
-    // public List<Categorie_DTO> GetAll()
-    // {
-    //     throw new NotImplementedException();
-    // }
 
     public Categorie_DTO Add(Categorie_DTO dto)
     {
@@ -56,16 +41,4 @@ public class Categorie_SRV : ICategorie_SRV
         
         return dto; 
     }
-
-    
-    //TODO: Delete this shit
-    // public Categorie_DTO Update(Categorie_DTO dto)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public void Delete(Categorie_DTO dto)
-    // {
-    //     throw new NotImplementedException();
-    // }
 }

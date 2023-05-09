@@ -50,18 +50,6 @@ public class Materiel_BLL
                 SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.AController);
     }
     
-    //TODO: del this shit
-    // public void UpdateOnInterventionReturnNotUsedMaterial()
-    // {
-    //     // SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.Stock);
-    //     if (Date_expiration != null)
-    //         if (Date_expiration < DateTime.Now)
-    //             SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.AJeter);
-    //     if (Date_prochain_controle != null)
-    //         if (Date_prochain_controle < DateTime.Now)
-    //             SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.AController);
-    // }
-    
     public void ReAsigneEtatMateriel()
     {
         if (Date_expiration != null)

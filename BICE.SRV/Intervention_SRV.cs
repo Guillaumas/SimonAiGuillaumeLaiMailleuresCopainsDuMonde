@@ -7,17 +7,18 @@ namespace BICE.SRV;
 public class Intervention_SRV : IIntervention_SRV
 {
     protected Intervention_depot_DAL depot_intervention;
-
+    protected Vehicule_depot_DAL depot_vehicule;
+    protected Materiel_depot_DAL depot_materiel;
+    protected HistoriqueInterventionVehiculeDepot_DAL depot_historiqueInterventionVehicule;
+    protected HistoriqueMateriel_depot_DAL depot_historiqueMateriel;
     public Intervention_SRV()
     {
         depot_intervention = new Intervention_depot_DAL();
+        depot_historiqueInterventionVehicule = new HistoriqueInterventionVehiculeDepot_DAL();
+        depot_vehicule = new Vehicule_depot_DAL();
+        depot_materiel = new Materiel_depot_DAL();
+        depot_historiqueMateriel = new HistoriqueMateriel_depot_DAL();
     }
-    
-    //TODO: Delete this shit
-    // public Intervention_DTO GetById(int id)
-    // {
-    //     throw new NotImplementedException();
-    // }
 
     public List<Intervention_DTO> GetAll()
     {
@@ -47,6 +48,30 @@ public class Intervention_SRV : IIntervention_SRV
             dto.Description
         );
         
+        //Ajout des vehicules dans l'historique
+        foreach (var numero in dto.NumerosVehicule)
+        {
+            var historiqueInterventionVehiculeDal = depot_historiqueInterventionVehicule.Insert(new HistoriqueInterventionVehicule_DAL(
+                dto.Date,
+                depot_vehicule.GetByNumeros(numero).Id,
+                interventionDAL.Id
+            ));
+
+            foreach (var materiel in depot_materiel.GetAllByIdVehicule(depot_vehicule.GetByNumeros(numero).Id))
+            {
+                var historiqueMaterielDal = new HistoriqueMateriel_DAL(
+                    historiqueInterventionVehiculeDal.Id,
+                    materiel.Nombre_utilisations,
+                    materiel.Nombre_utilisations_limite,
+                    materiel.Date_expiration,
+                    materiel.Date_prochain_controle
+                );
+                depot_historiqueMateriel.Insert(historiqueMaterielDal);
+            }
+        }
+        
+        //Ajout des materiel à l'historique
+        
         depot_intervention.Insert(interventionDAL);
         
         dto.Date = interventionDAL.Date;
@@ -56,15 +81,4 @@ public class Intervention_SRV : IIntervention_SRV
         
         return dto;
     }
-
-    //TODO: Delete this shit
-    // public Intervention_DTO Update(Intervention_DTO dto)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public void Delete(Intervention_DTO dto)
-    // {
-    //     throw new NotImplementedException();
-    // }
 }

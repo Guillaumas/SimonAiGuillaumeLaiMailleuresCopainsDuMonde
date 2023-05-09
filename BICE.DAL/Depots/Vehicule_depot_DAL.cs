@@ -105,18 +105,13 @@ public class Vehicule_depot_DAL : Depot_DAL
         return v;
     }
     
-    
-    
-    
-    //TODO: SC - del this shit
-    // public override void Delete(Vehicule_DAL v)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    //
-    // public override Vehicule_DAL GetById(int id)
-    // {
-    //     throw new NotImplementedException();
-    // }
+    public Vehicule_DAL Delete(Vehicule_DAL v)
+    {
+        InitialiseConnexionAndCommand();
+        Command.CommandText = @"DELETE FROM [dbo].[vehicule] WHERE [id] = @id";
+        Command.Parameters.AddWithValue("@id", v.Id);
+        Command.ExecuteNonQuery();
+        CloseAndDisposeConnexion();
+        return v;
+    }
 }

@@ -29,39 +29,4 @@ public class EtatMateriel_SRV : IEtatMateriel_SRV
             Denomination = etatMaterielDAL.Denomination
         };
     }
-    
-    //TODO: Delete this shit
-    // public EtatMaterial_DTO GetById(int id)
-    // {
-    //     var categorieDAL = depot_etatMateriel.GetById(id);
-    //     return new EtatMaterial_DTO()
-    //     {
-    //         Id = categorieDAL.Id,
-    //         Denomination = categorieDAL.Denomination
-    //     };
-    // }
-    //
-    // public List<EtatMaterial_DTO> GetAll()
-    // {
-    //     throw new NotImplementedException();
-    // }
-    // public EtatMaterial_DTO Add(EtatMaterial_DTO dto)
-    // {
-    //     var etaMaterielDAL = new EtatMateriel_DAL(
-    //         dto.Denomination);
-    //     depot_etatMateriel.Insert(etaMaterielDAL);
-    //     
-    //     dto.Id = etaMaterielDAL.Id;
-    //     dto.Denomination = etaMaterielDAL.Denomination;
-    //     return dto;
-    // }
-    // public EtatMaterial_DTO Update(EtatMaterial_DTO dto)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public void Delete(EtatMaterial_DTO dto)
-    // {
-    //     throw new NotImplementedException();
-    // }
 }
