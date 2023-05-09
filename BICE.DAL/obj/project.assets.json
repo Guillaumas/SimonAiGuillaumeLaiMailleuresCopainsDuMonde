@@ -1153,7 +1153,7 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Problème de lecture du fichier cache C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DAL\\obj\\project.nuget.cache : Invalid property identifier character: >. Path 'dgSpecHash', line 4, position 0."
+      "message": "Problème de lecture du fichier cache C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DAL\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
     }
   ]
 }

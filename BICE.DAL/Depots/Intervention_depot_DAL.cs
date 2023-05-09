@@ -1,19 +1,19 @@
 namespace BICE.DAL;
 using System.Data.SqlClient;
 
-public class Intervention_depot_DAL : Depot_DAL<Intervention_DAL>
+public class Intervention_depot_DAL : Depot_DAL
 {
-    public override Intervention_DAL Update(Intervention_DAL i)
-    {
-        throw new NotImplementedException();
-    }
+    // public override Intervention_DAL Update(Intervention_DAL i)
+    // {
+    //     throw new NotImplementedException();
+    // }
 
-    public override Intervention_DAL GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
+    // public override Intervention_DAL GetById(int id)
+    // {
+    //     throw new NotImplementedException();
+    // }
 
-    public override Intervention_DAL Insert(Intervention_DAL i)
+    public Intervention_DAL Insert(Intervention_DAL i)
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"INSERT INTO [dbo].[intervention]
@@ -29,7 +29,7 @@ public class Intervention_depot_DAL : Depot_DAL<Intervention_DAL>
         return i;
     }
 
-    public override IEnumerable<Intervention_DAL> GetAll()
+    public IEnumerable<Intervention_DAL> GetAll()
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"SELECT [id], [date], [denomination], [description]
@@ -60,13 +60,13 @@ public class Intervention_depot_DAL : Depot_DAL<Intervention_DAL>
         return interventions;
     }
 
-    public override void Delete(Intervention_DAL i)
-    {
-        InitialiseConnexionAndCommand();
-        Command.CommandText = @"DELETE FROM [dbo].[intervention]
-                                WHERE [id] = @id";
-        Command.Parameters.Add(new SqlParameter("@id", i.Id));
-        Command.ExecuteNonQuery();
-        CloseAndDisposeConnexion();
-    }
+    // public void Delete(Intervention_DAL i)
+    // {
+    //     InitialiseConnexionAndCommand();
+    //     Command.CommandText = @"DELETE FROM [dbo].[intervention]
+    //                             WHERE [id] = @id";
+    //     Command.Parameters.Add(new SqlParameter("@id", i.Id));
+    //     Command.ExecuteNonQuery();
+    //     CloseAndDisposeConnexion();
+    // }
 }

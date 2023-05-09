@@ -2,17 +2,17 @@ namespace BICE.BLL;
 
 public class Materiel_BLL
 {
-    //TODO : SC - verifier si le nombre limite d'utilisation n'es pas dépassé??
     public int Id_Etat_materiel { get; set; }
     public EtatMateriel_BLL.EtatMateriel Etat_materiel { get; set; }
     public int Nombre_utilisation { get; set; }
     public int? Nombre_utilisation_limite { get; set; }
     public DateTime? Date_expiration { get; set; }
+    public DateTime? Date_prochain_controle { get; set; }
     
-    public Materiel_BLL(DateTime? dateExpiration)
-        => (Date_expiration) = (dateExpiration);
-    public Materiel_BLL(int nombreUtilisation, int? nombreUtilisationLimite, DateTime? dateExpiration)
-    :this( dateExpiration)
+    public Materiel_BLL(DateTime? dateExpiration, DateTime? dateProchainControle)
+        => (Date_expiration, Date_prochain_controle) = (dateExpiration, dateProchainControle);
+    public Materiel_BLL(int nombreUtilisation, int? nombreUtilisationLimite, DateTime? dateExpiration, DateTime? dateProchainControle)
+    :this( dateExpiration, dateProchainControle)
         => (Nombre_utilisation, Nombre_utilisation_limite) = (nombreUtilisation, nombreUtilisationLimite);
     
     private int IncrementUsesNumber()
@@ -22,6 +22,17 @@ public class Materiel_BLL
     private EtatMateriel_BLL.EtatMateriel SetEtatMateriel(EtatMateriel_BLL.EtatMateriel em)
     {
         return Etat_materiel = em;
+    }
+
+    public bool MaterielCanBeUse()
+    {
+        if (Date_expiration != null)
+            if (Date_expiration < DateTime.Now)
+                return false;
+        if (Date_prochain_controle != null)
+            if (Date_prochain_controle < DateTime.Now)
+                return false;
+        return true;
     }
     
     public void UpdateOnInterventionReturnUsedMaterial()
@@ -34,14 +45,30 @@ public class Materiel_BLL
         if (Date_expiration != null)
             if (Date_expiration < DateTime.Now)
                 SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.AJeter);
+        if (Date_prochain_controle != null)
+            if (Date_prochain_controle < DateTime.Now)
+                SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.AController);
     }
     
+    //TODO: del this shit
+    // public void UpdateOnInterventionReturnNotUsedMaterial()
+    // {
+    //     // SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.Stock);
+    //     if (Date_expiration != null)
+    //         if (Date_expiration < DateTime.Now)
+    //             SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.AJeter);
+    //     if (Date_prochain_controle != null)
+    //         if (Date_prochain_controle < DateTime.Now)
+    //             SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.AController);
+    // }
     
-    public void UpdateOnInterventionReturnNotUsedMaterial()
+    public void ReAsigneEtatMateriel()
     {
-        // SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.Stock);
         if (Date_expiration != null)
             if (Date_expiration < DateTime.Now)
                 SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.AJeter);
+        if (Date_prochain_controle != null)
+            if (Date_prochain_controle < DateTime.Now)
+                SetEtatMateriel(EtatMateriel_BLL.EtatMateriel.AController);
     }
 }
