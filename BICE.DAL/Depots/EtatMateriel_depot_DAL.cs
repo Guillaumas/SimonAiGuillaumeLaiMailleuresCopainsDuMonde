@@ -2,14 +2,14 @@ namespace BICE.DAL;
 using BICE.BLL; //TODO: Bonne pratique???
 using System.Data.SqlClient;
 
-public class EtatMateriel_depot_DAL : Depot_DAL<EtatMateriel_DAL>
+public class EtatMateriel_depot_DAL : Depot_DAL
 {
-    public override EtatMateriel_DAL Update(EtatMateriel_DAL p)
-    {
-        throw new NotImplementedException();
-    }
+    // public override EtatMateriel_DAL Update(EtatMateriel_DAL p)
+    // {
+    //     throw new NotImplementedException();
+    // }
 
-    public override EtatMateriel_DAL GetById(int id)
+    public EtatMateriel_DAL GetById(int id)
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"SELECT [id]
@@ -57,7 +57,7 @@ public class EtatMateriel_depot_DAL : Depot_DAL<EtatMateriel_DAL>
         return em;
     }
 
-    public override EtatMateriel_DAL Insert(EtatMateriel_DAL em)
+    public EtatMateriel_DAL Insert(EtatMateriel_DAL em)
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"INSERT INTO [dbo].[etat_materiel]
@@ -71,13 +71,13 @@ public class EtatMateriel_depot_DAL : Depot_DAL<EtatMateriel_DAL>
         return em;
     }
 
-    public override IEnumerable<EtatMateriel_DAL> GetAll()
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Delete(EtatMateriel_DAL p)
-    {
-        throw new NotImplementedException();
-    }
+    // public override IEnumerable<EtatMateriel_DAL> GetAll()
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public override void Delete(EtatMateriel_DAL p)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }

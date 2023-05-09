@@ -1,11 +1,12 @@
 using BICE.DAL;
 using BICE.DTO;
+using BICE.SRV.Interfaces_SRV;
 
 namespace BICE.SRV;
 
-public class Categorie_SRV : BICE_SRV<Categorie_DTO>
+public class Categorie_SRV : ICategorie_SRV
 {
-    // protected IDepot_DAL<Categorie_DAL> depot_categorie; TODO:use this instead
+    // protected IDepot_DAL<Categorie_DAL> depot_categorie; TODO:use this instead??
     
     protected Categorie_depot_DAL depot_categorie;
     
@@ -27,20 +28,22 @@ public class Categorie_SRV : BICE_SRV<Categorie_DTO>
             Denomination = categorieDAL.Denomination
         };
     }
-    public Categorie_DTO GetById(int id)
-    {
-        var categorieDAL = depot_categorie.GetById(id);
-        return new Categorie_DTO()
-        {
-            Id = categorieDAL.Id,
-            Denomination = categorieDAL.Denomination
-        };
-    }
+    
+    //TODO: Delete this shit
+    // public Categorie_DTO GetById(int id)
+    // {
+    //     var categorieDAL = depot_categorie.GetById(id);
+    //     return new Categorie_DTO()
+    //     {
+    //         Id = categorieDAL.Id,
+    //         Denomination = categorieDAL.Denomination
+    //     };
+    // }
 
-    public List<Categorie_DTO> GetAll()
-    {
-        throw new NotImplementedException();
-    }
+    // public List<Categorie_DTO> GetAll()
+    // {
+    //     throw new NotImplementedException();
+    // }
 
     public Categorie_DTO Add(Categorie_DTO dto)
     {
@@ -54,13 +57,15 @@ public class Categorie_SRV : BICE_SRV<Categorie_DTO>
         return dto; 
     }
 
-    public Categorie_DTO Update(Categorie_DTO dto)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Delete(Categorie_DTO dto)
-    {
-        throw new NotImplementedException();
-    }
+    
+    //TODO: Delete this shit
+    // public Categorie_DTO Update(Categorie_DTO dto)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public void Delete(Categorie_DTO dto)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }

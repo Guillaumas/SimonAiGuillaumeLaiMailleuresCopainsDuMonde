@@ -25,15 +25,27 @@ public class Materiel_API
         var materiels = service.GetAll();
         return materiels;
     }
-    
     [HttpGet]
-    [Route("ToDel")]
-    public List<Material_DTO> GetAllByEtatMateriel()
+    [Route("AJeter")]
+    public List<Material_DTO> GetAllByEtatMaterielAJeter()
     {
         var materiels = service.GetAllByEtatMaterielDenomination(EtatMateriel_BLL.EtatMateriel.AJeter);
         return materiels;
     }
-
+    [HttpGet]
+    [Route("AController")]
+    public List<Material_DTO> GetAllByEtatMaterielAController()
+    {
+        var materiels = service.GetAllByEtatMaterielDenomination(EtatMateriel_BLL.EtatMateriel.AController);
+        return materiels;
+    }
+    [HttpGet]
+    [Route("Stock")]
+    public List<Material_DTO> GetAllByEtatMaterielStock()
+    {
+        var materiels = service.GetAllByEtatMaterielDenomination(EtatMateriel_BLL.EtatMateriel.Stock);
+        return materiels;
+    }
     [HttpPost]
     public List<Material_DTO> Add(List<Material_DTO> materiel)
     {
@@ -43,7 +55,6 @@ public class Materiel_API
     [Route("updateVehicule/{numeroVehicule}")]
     public List<Material_DTO> UpdateByVehicule(List<Material_DTO> materiels, string numeroVehicule)
     {
-        //TODO: verifier si le vehicule existe
         return service.UpdateByVehicule(numeroVehicule, materiels);
     }
     

@@ -3,9 +3,9 @@ using System.Reflection.Metadata.Ecma335;
 namespace BICE.DAL;
 using System.Data.SqlClient;
 
-public class Categorie_depot_DAL : Depot_DAL<Categorie_DAL>
+public class Categorie_depot_DAL : Depot_DAL
 {
-    public override Categorie_DAL Insert(Categorie_DAL c)
+    public Categorie_DAL Insert(Categorie_DAL c)
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"INSERT INTO [dbo].[categorie]
@@ -19,20 +19,20 @@ public class Categorie_depot_DAL : Depot_DAL<Categorie_DAL>
         return c;
     }
 
-    public override Categorie_DAL Update(Categorie_DAL c)
-    {
-        InitialiseConnexionAndCommand();
-        Command.CommandText = @"UPDATE [dbo].[categorie] 
-                               SET [categorie_nom] = @denomination
-                             WHERE id=@id";
-        Command.Parameters.Add(new SqlParameter("@denomination", c.Denomination));
-        Command.ExecuteNonQuery();
-        
-        CloseAndDisposeConnexion();
-        return c;
-    }
+    // public override Categorie_DAL Update(Categorie_DAL c)
+    // {
+    //     InitialiseConnexionAndCommand();
+    //     Command.CommandText = @"UPDATE [dbo].[categorie] 
+    //                            SET [categorie_nom] = @denomination
+    //                          WHERE id=@id";
+    //     Command.Parameters.Add(new SqlParameter("@denomination", c.Denomination));
+    //     Command.ExecuteNonQuery();
+    //     
+    //     CloseAndDisposeConnexion();
+    //     return c;
+    // }
 
-    public override Categorie_DAL GetById(int id)
+    public Categorie_DAL GetById(int id)
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"SELECT [id]
@@ -76,13 +76,13 @@ public class Categorie_depot_DAL : Depot_DAL<Categorie_DAL>
         return c;
     }
 
-    public override IEnumerable<Categorie_DAL> GetAll()
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Delete(Categorie_DAL p)
-    {
-        throw new NotImplementedException();
-    }
+    // public override IEnumerable<Categorie_DAL> GetAll()
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public override void Delete(Categorie_DAL p)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }

@@ -5,12 +5,15 @@ public class EtatMateriel_BLL
     public enum EtatMateriel
     {
         Stock,
+        AController,
         Jeté,
         AJeter,
         Vehicule,
-        Perdu
+        Perdu,
+        test
     }
 
+        //TODO: del this shit
         public EtatMateriel GetByDenomination(string denomination)
         {
             foreach (EtatMateriel etat in Enum.GetValues(typeof(EtatMateriel)))

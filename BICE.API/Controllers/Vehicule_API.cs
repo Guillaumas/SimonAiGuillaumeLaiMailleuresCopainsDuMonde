@@ -22,8 +22,9 @@ public class Vehicule_API
         var vehicules = service.GetAll();
         return vehicules;
     }
-    [HttpGet]
-    [Route("delete/{numeroVehicule}")]
+    
+    [HttpDelete] 
+    [Route("{numeroVehicule}")]
     public Vehicule_DTO Delete(string numeroVehicule)
     {
         var vehicules = service.DeleteByNumeroVehicule(numeroVehicule);
@@ -35,8 +36,8 @@ public class Vehicule_API
     {
         return service.Add(v);
     }
-    [HttpPost]
-    [Route("update/{numeroVehicule}")]
+    [HttpPut]
+    [Route("{numeroVehicule}")]
     public Vehicule_DTO Update(Vehicule_DTO v, string numeroVehicule)
     {
         return service.Update(v, numeroVehicule);
