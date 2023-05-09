@@ -18,8 +18,8 @@ namespace BICE.WPF.Pages
 {
     public partial class Vehicule : UserControl
     {
-        private TextBox ImmatriculationTextBox;
-        private TextBox NumeroTextBox;
+        TextBox ImmatriculationTextBox;
+        TextBox NumeroTextBox;
 
         public Vehicule()
         {
@@ -279,6 +279,7 @@ namespace BICE.WPF.Pages
 
         #endregion
 
+        #region EditVehiculeBouton
 
         private async Task CreateVehiculesDropdown()
         {
@@ -323,11 +324,12 @@ namespace BICE.WPF.Pages
 
             if (selectedVehicule != null)
             {
+                // Initialiser les champs du formulaire
+                AddFormFields();
+
                 // Mettre à jour les champs du formulaire avec les informations du véhicule sélectionné
-                // Exemple :
                 NumeroTextBox.Text = selectedVehicule.Numero;
                 ImmatriculationTextBox.Text = selectedVehicule.Immatriculation;
-                AddFormFields();
             }
         }
 
@@ -359,10 +361,10 @@ namespace BICE.WPF.Pages
             Grid.SetRow(numeroLabel, 1);
             VehiculeGrid.Children.Add(numeroLabel);
 
-            TextBox numeroTextBox = new TextBox();
-            Grid.SetColumn(numeroTextBox, 1);
-            Grid.SetRow(numeroTextBox, 1);
-            VehiculeGrid.Children.Add(numeroTextBox);
+            NumeroTextBox = new TextBox();
+            Grid.SetColumn(NumeroTextBox, 1);
+            Grid.SetRow(NumeroTextBox, 1);
+            VehiculeGrid.Children.Add(NumeroTextBox);
 
             // Ajouter le champ "Immatriculation"
             Label immatriculationLabel = new Label { Content = "Immatriculation" };
@@ -370,10 +372,10 @@ namespace BICE.WPF.Pages
             Grid.SetRow(immatriculationLabel, 2);
             VehiculeGrid.Children.Add(immatriculationLabel);
 
-            TextBox immatriculationTextBox = new TextBox();
-            Grid.SetColumn(immatriculationTextBox, 1);
-            Grid.SetRow(immatriculationTextBox, 2);
-            VehiculeGrid.Children.Add(immatriculationTextBox);
+            ImmatriculationTextBox = new TextBox();
+            Grid.SetColumn(ImmatriculationTextBox, 1);
+            Grid.SetRow(ImmatriculationTextBox, 2);
+            VehiculeGrid.Children.Add(ImmatriculationTextBox);
 
             // Ajouter le bouton "Confirmer"
             Button btnConfirmer = new Button { Content = "Confirmer" };
@@ -498,12 +500,11 @@ namespace BICE.WPF.Pages
             return regex.IsMatch(text);
         }
 
+
+        #endregion
         private bool AreFieldsEmpty()
         {
-            TextBox registrationNumberTextBox = (TextBox)VehiculeGrid.FindName("RegistrationNumberTextBox");
-            TextBox numberTextBox = (TextBox)VehiculeGrid.FindName("numberTextBox");
-
-            return string.IsNullOrWhiteSpace(registrationNumberTextBox.Text) || string.IsNullOrWhiteSpace(numberTextBox.Text);
+            return string.IsNullOrWhiteSpace(NumeroTextBox.Text) || string.IsNullOrWhiteSpace(ImmatriculationTextBox.Text);
         }
 
         private static bool IsNumber(string text)
