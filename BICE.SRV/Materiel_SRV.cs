@@ -84,7 +84,9 @@ public class Materiel_SRV : IMateriel_SRV
     public List<Material_DTO> UpdateByVehicule(string numeroVehicule, List<Material_DTO> materialDtos)
     {
         var vehiculeDal = depot_vehicule.GetByNumeros(numeroVehicule);
-
+        var materielCantBeUse = new List<Material_DTO>();
+        
+        
         //TODO: Obligé de tej les ancien materiel???
         var materielsToAddToStock = depot_materiel.GetAllByIdVehicule(vehiculeDal.Id);
         foreach (var mat in materielsToAddToStock)
@@ -92,23 +94,33 @@ public class Materiel_SRV : IMateriel_SRV
             mat.Id_etat_materiel = etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Stock).Id;
             depot_materiel.Update(mat);
         }
-
-
+        
         if (materialDtos != null || materialDtos.Count == 0)
         {
             foreach (var materialDto in materialDtos)
             {
-                var materielDal = CreateDalByDto(materialDto);
-                materielDal.Id_vehicule = vehiculeDal.Id;
-                materialDto.Id_vehicule = vehiculeDal.Id;
-                materielDal.Id_categorie = depot_categorie.GetByDenomination(materialDto.Categorie).Id;
-                materielDal.Id_etat_materiel =
-                    etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Vehicule).Id;
-                depot_materiel.UpdateByCodeBarre(materielDal);
+                var materielBll = new Materiel_BLL(materialDto.Date_expiration, materialDto.Date_prochain_controle);
+                if (materielBll.MaterielCanBeUse())
+                {
+                    var materielDal = CreateDalByDto(materialDto);
+                    materielDal.Id_vehicule = vehiculeDal.Id;
+                    materialDto.Id_vehicule = vehiculeDal.Id;
+                    materielDal.Id_categorie = depot_categorie.GetByDenomination(materialDto.Categorie).Id;
+                    materielDal.Id_etat_materiel =
+                        etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Vehicule).Id;
+                    depot_materiel.UpdateByCodeBarre(materielDal);
+                }
+                else
+                {
+                    materielCantBeUse.Add(materialDto);
+                    materielBll.ReAsigneEtatMateriel();
+                }
             }
         }
 
-        return materialDtos;
+        if (materielCantBeUse.Count != 0)
+            return materielCantBeUse;
+        return materialDtos; //TODO: besoin de retourner la liste des materiel Dto?? Juste retourner une liste si il y a une erreur lors de l'insertion?? (return materielCantBeUsed)
     }
 
     public List<Material_DTO> UpdateOnInterventionReturnUsedMaterials(List<Material_DTO> dtos)
@@ -124,7 +136,7 @@ public class Materiel_SRV : IMateriel_SRV
                     //TODO:Gérer l'erreur...
                     Materiel_BLL materielBll = new Materiel_BLL(materielDAL.Nombre_utilisations,
                         materielDAL.Nombre_utilisations_limite,
-                        materielDAL.Date_expiration);
+                        materielDAL.Date_expiration, materielDAL.Date_prochain_controle);
                     materielBll.UpdateOnInterventionReturnUsedMaterial();
 
                     materielDAL.Nombre_utilisations = materielBll.Nombre_utilisation;
@@ -153,8 +165,8 @@ public class Materiel_SRV : IMateriel_SRV
                 if (materielDAL != null)
                 {
                     Materiel_BLL materielBll =
-                        new Materiel_BLL(materielDAL.Date_expiration);
-                    materielBll.UpdateOnInterventionReturnNotUsedMaterial();
+                        new Materiel_BLL(materielDAL.Date_expiration, materielDAL.Date_prochain_controle);
+                    materielBll.ReAsigneEtatMateriel();
                     materielDAL.Id_etat_materiel = etatMaterielSRV.GetByDenomination(materielBll.Etat_materiel).Id;
 
                     depot_materiel.Update(materielDAL);

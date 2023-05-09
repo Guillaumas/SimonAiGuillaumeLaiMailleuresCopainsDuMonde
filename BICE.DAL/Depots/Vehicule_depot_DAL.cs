@@ -59,7 +59,7 @@ public class Vehicule_depot_DAL : Depot_DAL
         return v;
     }
 
-    public IEnumerable<Vehicule_DAL> GetAll()
+    public List<Vehicule_DAL> GetAll()
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"SELECT * FROM [dbo].[vehicule]";

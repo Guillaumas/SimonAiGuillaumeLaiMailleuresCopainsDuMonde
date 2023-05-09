@@ -1,5 +1,6 @@
 ﻿using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using BICE.BLL;
 
 namespace BICE.DAL;
 
@@ -20,18 +21,21 @@ public abstract class Depot_DAL
     {
         try
         {
-            //var builder = new ConfigurationBuilder();
-            //var config = builder.AddJsonFile("./appsettings.json", false, true).Build();
-            // var connectionStringSection = config.GetSection("ConnectionStrings:BICE");
-            //if (config == null)
-            //{
-            //    throw new Exception("Configuration not found.");
-            //}
-            // ConString = connectionStringSection?.Value ?? throw new Exception($"Connection string not found : {connectionStringSection.Value}");
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("./appsettings.json", optional: false, reloadOnChange: true);
             
-            // TODO : gerer connection string dans appsettings.json 
-            ConString = "Data Source=localhost;Initial Catalog=BICE;Persist Security Info=True;User ID=BICE;Password=Guigsetsimsimles+bgdu44";
-            // ConString = "Data Source=localhost;Initial Catalog=BICE;Persist Security Info=True;User ID=Bice;Password=Bice";
+            var configuration = builder.Build();
+
+            var connectionString = configuration.GetConnectionString("simsim");
+            // var connectionString = configuration.GetConnectionString("guigs");
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new Exception("Connection string not found.");
+            }
+
+            ConString = connectionString;
         }
         catch (FileNotFoundException e)
         {
@@ -39,8 +43,8 @@ public abstract class Depot_DAL
             throw;
         }
         //TODO: SC - Verifier que EtatMateriel est rempli
+        CreateEtatMaterielInBdd();
     }
-
     
     protected void InitialiseConnexionAndCommand()
     {
@@ -61,5 +65,26 @@ public abstract class Depot_DAL
         {
             Command.Dispose();
         }       
+    }
+
+    protected void CreateEtatMaterielInBdd()
+    {
+        InitialiseConnexionAndCommand();
+        Command.CommandText = @"select * from etat_materiel";
+        var reader = Command.ExecuteReader();
+        var etatMaterielBdd = new List<string>();
+        while (reader.Read())
+        {
+            etatMaterielBdd.Add((string)reader["etat"]);
+        }
+
+        foreach (EtatMateriel_BLL.EtatMateriel em in Enum.GetValues(typeof(EtatMateriel_BLL.EtatMateriel)))
+        {
+            if (!etatMaterielBdd.Contains(em.ToString()))
+            {
+                var emDal = new EtatMateriel_depot_DAL().Insert(new EtatMateriel_DAL(em));
+            }
+        }
+        CloseAndDisposeConnexion();
     }
 }

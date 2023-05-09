@@ -57,19 +57,19 @@ public class EtatMateriel_depot_DAL : Depot_DAL
         return em;
     }
 
-    // public override EtatMateriel_DAL Insert(EtatMateriel_DAL em)
-    // {
-    //     InitialiseConnexionAndCommand();
-    //     Command.CommandText = @"INSERT INTO [dbo].[etat_materiel]
-    //                                ([etat])
-    //                          VALUES
-    //                                (@denomination);
-    //                          SELECT SCOPE_IDENTITY()";
-    //     Command.Parameters.Add(new SqlParameter("@denomination", em.Denomination));
-    //     em.Id = Convert.ToInt32((decimal)Command.ExecuteScalar());
-    //     CloseAndDisposeConnexion();
-    //     return em;
-    // }
+    public EtatMateriel_DAL Insert(EtatMateriel_DAL em)
+    {
+        InitialiseConnexionAndCommand();
+        Command.CommandText = @"INSERT INTO [dbo].[etat_materiel]
+                                   ([etat])
+                             VALUES
+                                   (@denomination);
+                             SELECT SCOPE_IDENTITY()";
+        Command.Parameters.Add(new SqlParameter("@denomination", em.Denomination));
+        em.Id = Convert.ToInt32((decimal)Command.ExecuteScalar());
+        CloseAndDisposeConnexion();
+        return em;
+    }
 
     // public override IEnumerable<EtatMateriel_DAL> GetAll()
     // {
