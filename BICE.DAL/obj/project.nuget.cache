@@ -1,7 +1,6 @@
 {
   "version": 2,
   "dgSpecHash": "Ol4joDCUb80cJS+Xp3SkWoN/AiqWWf9O3wYyXyNrZsPHHq1ov3XEY5Ee/IquFCIdxIFahSxqyv/QTkF73fdPNg==",
->>>>>>> master
   "success": true,
   "projectFilePath": "C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DAL\\BICE.DAL.csproj",
   "expectedPackageFiles": [
@@ -26,5 +25,12 @@
     "C:\\Users\\Blue\\.nuget\\packages\\system.text.encodings.web\\8.0.0-preview.2.23128.3\\system.text.encodings.web.8.0.0-preview.2.23128.3.nupkg.sha512",
     "C:\\Users\\Blue\\.nuget\\packages\\system.text.json\\8.0.0-preview.2.23128.3\\system.text.json.8.0.0-preview.2.23128.3.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problème de lecture du fichier cache C:\\Users\\Blue\\source\\repos\\Guillaumas\\SimonAiGuillaumeLaiMailleuresCopainsDuMonde\\BICE.DAL\\obj\\project.nuget.cache : Invalid property identifier character: >. Path 'dgSpecHash', line 4, position 0."
+    }
+  ]
 }
