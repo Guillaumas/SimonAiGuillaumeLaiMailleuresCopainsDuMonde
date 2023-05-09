@@ -4,9 +4,9 @@ namespace BICE.DAL;
 
 using System.Data.SqlClient;
 
-public class Materiel_depot_DAL : Depot_DAL<Materiel_DAL>
+public class Materiel_depot_DAL : Depot_DAL
 {
-    public override Materiel_DAL Insert(Materiel_DAL m)
+    public Materiel_DAL Insert(Materiel_DAL m)
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"INSERT INTO [dbo].[materiel]
@@ -30,7 +30,7 @@ public class Materiel_depot_DAL : Depot_DAL<Materiel_DAL>
         return m;
     }
 
-    public override Materiel_DAL Update(Materiel_DAL m)
+    public Materiel_DAL Update(Materiel_DAL m)
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"UPDATE [dbo].[materiel] 
@@ -80,18 +80,18 @@ public class Materiel_depot_DAL : Depot_DAL<Materiel_DAL>
         return m;
     }
 
-    public override void Delete(Materiel_DAL p)
-    {
-        throw new NotImplementedException();
-        InitialiseConnexionAndCommand();
-        Command.CommandText = @"DELETE FROM [dbo].[materiels] 
-                             WHERE id=@id";
-        Command.Parameters.Add(new SqlParameter("@id", p.Id));
-        Command.ExecuteNonQuery();
-        CloseAndDisposeConnexion();
-    }
+    // public override void Delete(Materiel_DAL p)
+    // {
+    //     throw new NotImplementedException();
+    //     InitialiseConnexionAndCommand();
+    //     Command.CommandText = @"DELETE FROM [dbo].[materiels] 
+    //                          WHERE id=@id";
+    //     Command.Parameters.Add(new SqlParameter("@id", p.Id));
+    //     Command.ExecuteNonQuery();
+    //     CloseAndDisposeConnexion();
+    // }
 
-    public override IEnumerable<Materiel_DAL> GetAll()
+    public IEnumerable<Materiel_DAL> GetAll()
     {
         InitialiseConnexionAndCommand();
         Command.CommandText =
@@ -133,39 +133,39 @@ public class Materiel_depot_DAL : Depot_DAL<Materiel_DAL>
         return materiels;
     }
 
-    public override Materiel_DAL GetById(int id)
-    {
-        // throw new NotImplementedException();
-
-        InitialiseConnexionAndCommand();
-        Command.CommandText =
-            @"SELECT [id], [code_barre], [denomination], [nombre_utilisations], [nombre_utilisations_limite], [date_expiration], [date_prochain_controle]
-                             FROM [dbo].[materiel]
-                             WHERE id=@id";
-        Command.Parameters.Add(new SqlParameter("@id", id));
-        var reader = Command.ExecuteReader();
-
-        Materiel_DAL m = null;
-
-        if (reader.Read())
-        {
-            m = new Materiel_DAL(
-                (int)reader["id"],
-                (string)reader["denomination"],
-                (string)reader["code_barre"],
-                (int)reader["nombre_utilisation"],
-                (int)reader["nombre_utilisation_limite"],
-                (DateTime)reader["date_expiration"],
-                (DateTime)reader["date_prochain_controle"],
-                (int)reader["id_categorie"],
-                (int)reader["id_etat_materiel"],
-                reader["id_vehicule"] != DBNull.Value ? (int)reader["id_vehicule"] : null
-            );
-        }
-
-        CloseAndDisposeConnexion();
-        return m;
-    }
+    // public override Materiel_DAL GetById(int id)
+    // {
+    //     // throw new NotImplementedException();
+    //
+    //     InitialiseConnexionAndCommand();
+    //     Command.CommandText =
+    //         @"SELECT [id], [code_barre], [denomination], [nombre_utilisations], [nombre_utilisations_limite], [date_expiration], [date_prochain_controle]
+    //                          FROM [dbo].[materiel]
+    //                          WHERE id=@id";
+    //     Command.Parameters.Add(new SqlParameter("@id", id));
+    //     var reader = Command.ExecuteReader();
+    //
+    //     Materiel_DAL m = null;
+    //
+    //     if (reader.Read())
+    //     {
+    //         m = new Materiel_DAL(
+    //             (int)reader["id"],
+    //             (string)reader["denomination"],
+    //             (string)reader["code_barre"],
+    //             (int)reader["nombre_utilisation"],
+    //             (int)reader["nombre_utilisation_limite"],
+    //             (DateTime)reader["date_expiration"],
+    //             (DateTime)reader["date_prochain_controle"],
+    //             (int)reader["id_categorie"],
+    //             (int)reader["id_etat_materiel"],
+    //             reader["id_vehicule"] != DBNull.Value ? (int)reader["id_vehicule"] : null
+    //         );
+    //     }
+    //
+    //     CloseAndDisposeConnexion();
+    //     return m;
+    // }
 
     public int GetIdByCodeBarre(string code_barre)
     {
@@ -224,7 +224,7 @@ public class Materiel_depot_DAL : Depot_DAL<Materiel_DAL>
         //TODO: recupere tout les objet à jeter dans le WPF
         InitialiseConnexionAndCommand();
         Command.CommandText =
-            @"SELECT [id], [code_barre], [denomination], [nombre_utilisations], [nombre_utilisations_limite], [date_expiration], [date_prochain_controle], [id_categorie], [id_etat_materiel]
+            @"SELECT [id], [code_barre], [denomination], [nombre_utilisations], [nombre_utilisations_limite], [date_expiration], [date_prochain_controle], [id_categorie], [id_etat_materiel], [id_vehicule]
                              FROM [dbo].[materiel]
                              WHERE id_etat_materiel=@id_etat_materiel";
         Command.Parameters.Add(new SqlParameter("@id_etat_materiel", em.Id));

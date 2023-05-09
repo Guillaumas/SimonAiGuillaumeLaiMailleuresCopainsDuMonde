@@ -22,8 +22,9 @@ public class Vehicule_API
         var vehicules = service.GetAll();
         return vehicules;
     }
-    [HttpGet]
-    [Route("delete/{numeroVehicule}")]
+
+    [HttpGet] //TODO: remplacer GET by DELETE
+    [Route("{numeroVehicule}")]
     public Vehicule_DTO Delete(string numeroVehicule)
     {
         var vehicules = service.DeleteByNumeroVehicule(numeroVehicule);

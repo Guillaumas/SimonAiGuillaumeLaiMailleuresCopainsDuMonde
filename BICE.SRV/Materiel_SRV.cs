@@ -1,12 +1,13 @@
 using System.ComponentModel.Design;
 using BICE.BLL;
+using BICE.SRV.Interfaces_SRV;
 
 namespace BICE.SRV;
 
 using BICE.DTO;
 using BICE.DAL;
 
-public class Materiel_SRV : BICE_SRV<Material_DTO>
+public class Materiel_SRV : IMateriel_SRV
 {
     protected Materiel_depot_DAL depot_materiel;
     protected EtatMateriel_depot_DAL depot_EtatMateriel; //TODO: Bonne pratique???
@@ -27,10 +28,10 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
         this.depot_vehicule = new Vehicule_depot_DAL();
     }
 
-    public Material_DTO GetById(int id)
-    {
-        return CreateDtoByDal(depot_materiel.GetById(id));
-    }
+    // public Material_DTO GetById(int id)
+    // {
+    //     return CreateDtoByDal(depot_materiel.GetById(id));
+    // }
 
     public List<Material_DTO> GetAll()
     {
@@ -179,7 +180,6 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
             depot_materiel.Update(dal);
             materielsDTO.Add(CreateDtoByDal(dal));
         }
-
         return materielsDTO;
     }
 
@@ -220,59 +220,5 @@ public class Materiel_SRV : BICE_SRV<Material_DTO>
             dto.Id_Etat_materiel,
             dto.Id_vehicule);
         return materielDAL;
-    }
-
-
-    //TODO: Del this shit
-    // public List<Material_DTO> AddByList(List<Material_DTO> dtos)
-    // {
-    //     // Not implemented but if you delete this I cut your throat 
-    //     foreach (var dto in dtos)
-    //     {
-    //         dto.Etat_materiel = EtatMateriel_BLL.EtatMateriel.Stock; //TODO: bll??
-    //         Add(dto);
-    //     }
-    //
-    //     return dtos;
-    // }
-
-    public Material_DTO Add(Material_DTO dto)
-    {
-        throw new NotImplementedException();
-        //TODO: Del this shit
-        // if (depot_materiel.GetByCodeBarre(dto.Code_barre) != null)
-        // {
-        //     Update(dto);
-        //     return dto;
-        // }
-        // else
-        // {
-        //     var materielDal = CreateDalByDto(dto);
-        //     materielDal.Id_categorie = categorieSRV.GetByDenomination(dto.Categorie) == null
-        //         ? categorieSRV.Add(new Categorie_DTO() { Denomination = dto.Categorie }).Id
-        //         : categorieSRV.GetByDenomination(dto.Categorie).Id;
-        //     materielDal.Id_etat_materiel = etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Stock).Id;
-        //     depot_materiel.Insert(materielDal);
-        //     return dto;
-        // }
-    }
-
-    public Material_DTO Update(Material_DTO dto)
-    {
-        throw new NotImplementedException();
-        //TODO: Del this shit
-        // var materielDal = CreateDalByDto(dto);
-        // materielDal.Id_categorie = categorieSRV.GetByDenomination(dto.Categorie) == null
-        //     ? categorieSRV.Add(new Categorie_DTO() { Denomination = dto.Categorie }).Id
-        //     : categorieSRV.GetByDenomination(dto.Categorie).Id;
-        // materielDal.Id_etat_materiel = etatMaterielSRV.GetByDenomination(EtatMateriel_BLL.EtatMateriel.Stock).Id;
-        // depot_materiel.UpdateByCodeBarre(materielDal);
-        // return dto;
-    }
-
-    public void Delete(Material_DTO dto)
-    {
-        throw new NotImplementedException();
-        //TODO: Del this shit
     }
 }

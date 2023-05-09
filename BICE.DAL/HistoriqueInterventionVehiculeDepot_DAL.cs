@@ -1,14 +1,14 @@
 namespace BICE.DAL;
 using System.Data.SqlClient;
 
-public class HistoriqueInterventionVehiculeDepot_DAL : Depot_DAL<HistoriqueInterventionVehicule_DAL>
+public class HistoriqueInterventionVehiculeDepot_DAL : Depot_DAL
 {
-    public override HistoriqueInterventionVehicule_DAL Update(HistoriqueInterventionVehicule_DAL hiv)
+    public HistoriqueInterventionVehicule_DAL Update(HistoriqueInterventionVehicule_DAL hiv)
     {
         throw new NotImplementedException();
     }
 
-    public override HistoriqueInterventionVehicule_DAL GetById(int id)
+    public HistoriqueInterventionVehicule_DAL GetById(int id)
     {
         throw new NotImplementedException();
     }
@@ -33,7 +33,7 @@ public class HistoriqueInterventionVehiculeDepot_DAL : Depot_DAL<HistoriqueInter
         return historiqueInterventionVehiculeDALs;
     }
     
-    public override HistoriqueInterventionVehicule_DAL Insert(HistoriqueInterventionVehicule_DAL hiv)
+    public HistoriqueInterventionVehicule_DAL Insert(HistoriqueInterventionVehicule_DAL hiv)
     {
         InitialiseConnexionAndCommand();
         Command.CommandText = @"INSERT INTO [dbo].[HistoriqueInterventionVehicule]
@@ -48,12 +48,12 @@ public class HistoriqueInterventionVehiculeDepot_DAL : Depot_DAL<HistoriqueInter
         return hiv;
     }
 
-    public override IEnumerable<HistoriqueInterventionVehicule_DAL> GetAll()
+    public IEnumerable<HistoriqueInterventionVehicule_DAL> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public override void Delete(HistoriqueInterventionVehicule_DAL hiv)
+    public void Delete(HistoriqueInterventionVehicule_DAL hiv)
     {
         throw new NotImplementedException();
     }

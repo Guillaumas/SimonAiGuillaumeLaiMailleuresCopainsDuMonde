@@ -1,9 +1,10 @@
 using BICE.DAL;
 using BICE.DTO;
+using BICE.SRV.Interfaces_SRV;
 
 namespace BICE.SRV;
 
-public class Intervention_SRV : BICE_SRV<Intervention_DTO>
+public class Intervention_SRV : IIntervention_SRV
 {
     protected Intervention_depot_DAL depot_intervention;
 
@@ -12,10 +13,11 @@ public class Intervention_SRV : BICE_SRV<Intervention_DTO>
         depot_intervention = new Intervention_depot_DAL();
     }
     
-    public Intervention_DTO GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
+    //TODO: Delete this shit
+    // public Intervention_DTO GetById(int id)
+    // {
+    //     throw new NotImplementedException();
+    // }
 
     public List<Intervention_DTO> GetAll()
     {
@@ -55,13 +57,14 @@ public class Intervention_SRV : BICE_SRV<Intervention_DTO>
         return dto;
     }
 
-    public Intervention_DTO Update(Intervention_DTO dto)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Delete(Intervention_DTO dto)
-    {
-        throw new NotImplementedException();
-    }
+    //TODO: Delete this shit
+    // public Intervention_DTO Update(Intervention_DTO dto)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public void Delete(Intervention_DTO dto)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }
