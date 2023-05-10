@@ -1,8 +1,11 @@
+using BICE.DAL.Depots.Interfaces;
+
 namespace BICE.DAL;
+
 using BICE.BLL; //TODO: Bonne pratique???
 using System.Data.SqlClient;
 
-public class EtatMateriel_depot_DAL : Depot_DAL
+public class EtatMateriel_depot_DAL : Depot_DAL, IEtatMateriel_depot_DAL
 {
     // public override EtatMateriel_DAL Update(EtatMateriel_DAL p)
     // {
@@ -32,7 +35,7 @@ public class EtatMateriel_depot_DAL : Depot_DAL
         CloseAndDisposeConnexion();
         return em;
     }
-    
+
     public EtatMateriel_DAL GetByDenomination(EtatMateriel_BLL.EtatMateriel denomination)
     {
         InitialiseConnexionAndCommand();
@@ -45,13 +48,12 @@ public class EtatMateriel_depot_DAL : Depot_DAL
 
         EtatMateriel_DAL em = null;
         if (reader.Read())
-        {        
-            
+        {
             em = new EtatMateriel_DAL(
                 (int)reader["id"],
                 denomination
             );
-        }        
+        }
 
         CloseAndDisposeConnexion();
         return em;

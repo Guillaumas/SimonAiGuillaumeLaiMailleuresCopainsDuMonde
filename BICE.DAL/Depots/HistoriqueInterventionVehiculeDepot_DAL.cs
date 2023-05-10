@@ -1,7 +1,9 @@
+using BICE.DAL.Depots.Interfaces;
+
 namespace BICE.DAL;
 using System.Data.SqlClient;
 
-public class HistoriqueInterventionVehiculeDepot_DAL : Depot_DAL
+public class HistoriqueInterventionVehiculeDepot_DAL : Depot_DAL, IHistoriqueInterventionVehicule_depot_DAL
 {
     public List<HistoriqueInterventionVehicule_DAL> GetAllByVehiculeId(int vehiculeId)
     {

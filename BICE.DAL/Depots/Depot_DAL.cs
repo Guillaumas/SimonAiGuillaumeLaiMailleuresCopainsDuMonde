@@ -27,8 +27,8 @@ public abstract class Depot_DAL
             
             var configuration = builder.Build();
 
-            // var connectionString = configuration.GetConnectionString("simsim");
-            var connectionString = configuration.GetConnectionString("guigs");
+            var connectionString = configuration.GetConnectionString("simsim");
+            // var connectionString = configuration.GetConnectionString("guigs");
 
             if (string.IsNullOrEmpty(connectionString))
             {

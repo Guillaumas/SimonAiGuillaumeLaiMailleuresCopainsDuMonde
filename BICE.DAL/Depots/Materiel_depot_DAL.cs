@@ -1,10 +1,11 @@
 using BICE.BLL;
+using BICE.DAL.Depots.Interfaces;
 
 namespace BICE.DAL;
 
 using System.Data.SqlClient;
 
-public class Materiel_depot_DAL : Depot_DAL
+public class Materiel_depot_DAL : Depot_DAL, IMateriel_depot_DAL
 {
     public Materiel_DAL Insert(Materiel_DAL m)
     {

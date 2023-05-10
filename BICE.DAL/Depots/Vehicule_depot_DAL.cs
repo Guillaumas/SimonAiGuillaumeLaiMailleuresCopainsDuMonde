@@ -1,8 +1,9 @@
 using System.Data.SqlClient;
+using BICE.DAL.Depots.Interfaces;
 
 namespace BICE.DAL;
 
-public class Vehicule_depot_DAL : Depot_DAL
+public class Vehicule_depot_DAL : Depot_DAL, IVehicule_depot_DAL
 {
 
 
@@ -49,11 +50,11 @@ public class Vehicule_depot_DAL : Depot_DAL
     public Vehicule_DAL Insert(Vehicule_DAL v)
     {
         InitialiseConnexionAndCommand();
-        Command.CommandText = @"INSERT INTO [dbo].[vehicule] ([denomination], [immatriculation], [actif]) VALUES (@denomination, @immatriculation, @actif) SELECT SCOPE_IDENTITY()";
+        Command.CommandText = @"INSERT INTO [dbo].[vehicule] ([denomination], [immatriculation], [actif],  [numero]) VALUES (@denomination, @immatriculation, @actif, @numero) SELECT SCOPE_IDENTITY()";
         Command.Parameters.AddWithValue("@denomination", v.Denomination);
         Command.Parameters.AddWithValue("@immatriculation", v.Immatriculation);
         Command.Parameters.AddWithValue("@actif", v.Actif);
-        
+        Command.Parameters.AddWithValue("@numero", v.Numero);
         v.Id = Convert.ToInt32((decimal)Command.ExecuteScalar()); 
         CloseAndDisposeConnexion();
         return v;
@@ -96,11 +97,13 @@ public class Vehicule_depot_DAL : Depot_DAL
     public Vehicule_DAL Update(Vehicule_DAL v)
     {
         InitialiseConnexionAndCommand();
-        Command.CommandText = @"UPDATE [dbo].[vehicule] SET [denomination] = @denomination, [immatriculation] = @immatriculation, [actif] = @actif WHERE [id] = @id";
+        Command.CommandText = @"UPDATE [dbo].[vehicule] SET [denomination] = @denomination, [immatriculation] = @immatriculation, [actif] = @actif, [numero] = @numero WHERE [id] = @id";
         Command.Parameters.AddWithValue("@id", v.Id);
         Command.Parameters.AddWithValue("@denomination", v.Denomination);
+        Command.Parameters.AddWithValue("@numero", v.Numero);
         Command.Parameters.AddWithValue("@immatriculation", v.Immatriculation);
         Command.Parameters.AddWithValue("@actif", v.Actif); //TODO: Utils??
+        Command.ExecuteNonQuery();
         CloseAndDisposeConnexion();
         return v;
     }

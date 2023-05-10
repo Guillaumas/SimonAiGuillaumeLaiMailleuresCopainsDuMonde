@@ -1,5 +1,6 @@
 using System.ComponentModel.Design;
 using BICE.BLL;
+using BICE.DAL.Depots.Interfaces;
 using BICE.SRV.Interfaces_SRV;
 
 namespace BICE.SRV;
@@ -9,7 +10,7 @@ using BICE.DAL;
 
 public class Materiel_SRV : IMateriel_SRV
 {
-    protected Materiel_depot_DAL depot_materiel;
+    protected IMateriel_depot_DAL depot_materiel;
     protected EtatMateriel_depot_DAL depot_EtatMateriel; //TODO: Bonne pratique???
     protected Categorie_depot_DAL depot_categorie; //TODO: Bonne pratique???
     protected Vehicule_depot_DAL depot_vehicule; //TODO: Bonne pratique???
@@ -27,6 +28,9 @@ public class Materiel_SRV : IMateriel_SRV
         this.depot_categorie = new Categorie_depot_DAL();
         this.depot_vehicule = new Vehicule_depot_DAL();
     }
+
+    public Materiel_SRV(IMateriel_depot_DAL imaterielDepotDal)
+        => (depot_materiel) = (imaterielDepotDal);
 
     public List<Material_DTO> GetAll()
     {
